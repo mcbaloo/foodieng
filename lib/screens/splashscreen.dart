@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodieng/screens/home.dart';
+import 'package:foodieng/utils/fadein.dart';
+import 'package:foodieng/widgets/homevideo.dart';
 import 'package:foodieng/widgets/loading.dart';
 //import 'package:medng/screens/epidermic.dart';
 
@@ -14,10 +17,8 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(
-    //     Duration(seconds: 5),
-    //     () => Navigator.of(context).pushReplacement(
-    //         MaterialPageRoute(builder: (BuildContext context) => Epidermic())));
+    Timer(Duration(seconds: 3),
+        () => Navigator.pushReplacement(context, FadeRoute(page: Home())));
   }
 
   @override

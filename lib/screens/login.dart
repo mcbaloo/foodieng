@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodieng/blocs/login/login/index.dart';
+import 'package:foodieng/blocs/login/login/login_bloc.dart';
+import 'package:foodieng/blocs/login/login/login_event.dart';
+import 'package:foodieng/models/User.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -10,158 +15,190 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomPadding: false,
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height / 2.3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Image(
-                    colorBlendMode: BlendMode.softLight,
-                    image: AssetImage("assets/images/foodieng_logo.png"),
-                  ),
-                ],
+    final user = User(_usernameController.text, _passwordController.text);
+    _onLoginButtonPressed() {
+      BlocProvider.of<LoginBloc>(context).add(LogginButtonPressed(user: user));
+    }
+
+    return BlocListener<LoginBloc, LoginState>(listener: (context, state) {
+      if (state is LoginFailure) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('${state.errorMessage}'),
+          backgroundColor: Colors.red,
+        ));
+      }
+    }, child: BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height / 2.3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Image(
+                      colorBlendMode: BlendMode.softLight,
+                      image: AssetImage("assets/images/foodieng_logo.png"),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Sign In",
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: MediaQuery.of(context).size.width / 18),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 50,
-                  ),
-                  Text('Enjoy our application'),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 55,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(32, 8.0, 32, 8.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      autofocus: false,
-                      initialValue: '',
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email),
-                        hintText: 'Email Address',
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 1.0,
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Sign In",
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: MediaQuery.of(context).size.width / 18),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 50,
+                    ),
+                    Text('Enjoy our application'),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 55,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(32, 8.0, 32, 8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        autofocus: false,
+                        //initialValue: '',
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email),
+                          hintText: 'Email Address',
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 1.0,
+                            ),
                           ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 1.0,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 1.0,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(32.0, 8.0, 32, 8.0),
-                    child: TextFormField(
-                      autofocus: false,
-                      initialValue: '',
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(FontAwesomeIcons.key),
-                        //isabledBorder: true,
-                        hintText: 'Password',
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 1.0,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(32.0, 8.0, 32, 8.0),
+                      child: TextFormField(
+                        autofocus: false,
+                        //initialValue: '',
+                        obscureText: true,
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(FontAwesomeIcons.key),
+                          //isabledBorder: true,
+                          hintText: 'Password',
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 1.0,
+                            ),
                           ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 1.0,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 1.0,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 60,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 1.0),
-                    //padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      onPressed: () {
-                        //Navigator.of(context).pushNamed(HomePage.tag);
-                      },
-                      splashColor: Color(0xffd4af37),
-                      padding: EdgeInsets.all(12),
-                      color: Theme.of(context).primaryColor,
-                      child: Text('Sign In',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize:
-                                  MediaQuery.of(context).size.width / 25)),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 60,
                     ),
-                  ),
-                  // SizedBox(
-                  //   height: MediaQuery.of(context).size.height / 45,
-                  // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Don’t have an account?',
-                        style: TextStyle(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 1.0),
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            onPressed: state is! LoginLoading
+                                ? _onLoginButtonPressed
+                                : null,
+                            splashColor: Color(0xffd4af37),
+                            padding: EdgeInsets.all(12),
                             color: Theme.of(context).primaryColor,
-                            fontSize: MediaQuery.of(context).size.width / 25),
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      FlatButton(
-                        child: Text(
-                          'Register',
+                            child: Text('Sign In',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width /
+                                            25)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.0),
+                          child: Container(
+                              child: state is LoginLoading
+                                  ? CircularProgressIndicator(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                    )
+                                  : null),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Don’t have an account?',
                           style: TextStyle(
                               color: Theme.of(context).primaryColor,
-                              fontSize: MediaQuery.of(context).size.width / 30),
+                              fontSize: MediaQuery.of(context).size.width / 25),
                         ),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ],
+                        SizedBox(
+                          width: 2,
+                        ),
+                        FlatButton(
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 30),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+            ],
+          ),
+        );
+        //);
+      },
+    ));
   }
 }

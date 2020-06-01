@@ -21,9 +21,10 @@ class _TrendingState extends State<Trending> {
   ];
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: designBar(context),
+      //appBar: designBar(context),
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.white,
           child: Column(
             children: <Widget>[
               Padding(
@@ -203,7 +204,7 @@ class _TrendingState extends State<Trending> {
           ),
         ),
       ),
-      bottomNavigationBar: guestBottom(context),
+      // bottomNavigationBar: guestBottom(context),
     );
   }
 }

@@ -2,16 +2,23 @@
 
 A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Foodideng is a food blog mobile application developed using flutter
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![splashscreen](https://user-images.githubusercontent.com/20352841/83363595-ea55bd00-a39a-11ea-8a3e-c7c8ac25dd50.PNG)
+
+
+![register](https://user-images.githubusercontent.com/20352841/83363722-d3639a80-a39b-11ea-928e-1beafc6e7260.PNG) 
+
+
+![login](https://user-images.githubusercontent.com/20352841/83369957-38c88300-a3be-11ea-9da0-02c2e4342a39.PNG)
+
+
+
+
+
+
+
 "# foodieng" 

@@ -4,12 +4,11 @@ import 'package:loading/loading.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Loading(
       indicator: BallPulseIndicator(),
-      size: MediaQuery.of(context).size.width * 0.30,
+      size: MediaQuery.of(context).size.width / 8,
       color: Theme.of(context).primaryColor,
     );
   }

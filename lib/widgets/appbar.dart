@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodieng/screens/account.dart';
+import 'package:foodieng/utils/fadein.dart';
 
 @override
 Widget designBar(BuildContext context) {
@@ -18,9 +20,12 @@ Widget designBar(BuildContext context) {
         onPressed: () => {showSearch(context: context, delegate: null)},
       ),
       Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-        child: Icon(Icons.account_circle),
-      )
+          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+          child: IconButton(
+            onPressed: () =>
+                {Navigator.push(context, FadeRoute(page: Account()))},
+            icon: Icon(Icons.account_circle),
+          ))
     ],
     elevation: 2,
   );

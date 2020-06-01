@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodieng/blocs/login/login/index.dart';
+import 'package:foodieng/screens/login.dart';
+import 'package:foodieng/utils/fadein.dart';
 import 'package:foodieng/widgets/guest_bottom.dart';
 
 class Account extends StatelessWidget {
@@ -24,12 +27,14 @@ class Account extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          FontAwesomeIcons.times,
-                          color: Colors.black54,
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                            onPressed: () => {Navigator.pop(context)},
+                            icon: Icon(
+                              FontAwesomeIcons.times,
+                              color: Colors.black54,
+                            ),
+                          )),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -43,12 +48,16 @@ class Account extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.account_circle,
-                          size: 30,
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                              icon: Icon(
+                                Icons.account_circle,
+                                size: 30,
+                              ),
+                              onPressed: () => {
+                                    Navigator.push(
+                                        context, FadeRoute(page: LoginPage()))
+                                  })),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
