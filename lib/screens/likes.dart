@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodieng/blocs/appbar/index.dart';
 import 'package:foodieng/widgets/appbar.dart';
 import 'package:foodieng/widgets/login_bottom_nav.dart';
 
@@ -13,7 +14,7 @@ class _LikesState extends State<Likes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: designBar(context),
+      //appBar: designBar(context),
       body: SingleChildScrollView(
         child: Container(
           child: Column(

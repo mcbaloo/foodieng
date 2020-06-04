@@ -14,8 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _loginBloc = LoginBloc();
-  UserRepository userRepository;
+  UserRepository userRepository = UserRepository();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);

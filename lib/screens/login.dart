@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/blocs/login/login/index.dart';
-import 'package:foodieng/blocs/login/login/login_bloc.dart';
-import 'package:foodieng/blocs/login/login/login_event.dart';
 import 'package:foodieng/models/User.dart';
+import 'package:foodieng/screens/home.dart';
+import 'package:foodieng/utils/fadein.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -17,19 +17,50 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _onEmailChanged() {
+    BlocProvider.of<LoginBloc>(context)
+        .add(UsernameChanged(text: _usernameController.text));
+  }
+
+  void _onPasswordChanged() {
+    BlocProvider.of<LoginBloc>(context)
+        .add(PasswordChanged(text: _passwordController.text));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController.addListener(_onEmailChanged);
+    _passwordController.addListener(_onPasswordChanged);
+  }
+
+  _onLoginButtonPressed() {
+    final user = User(
+        username: _usernameController.value.text,
+        password: _passwordController.value.text);
+    BlocProvider.of<LoginBloc>(context).add(LogginButtonPressed(user: user));
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = User(_usernameController.text, _passwordController.text);
-    _onLoginButtonPressed() {
-      BlocProvider.of<LoginBloc>(context).add(LogginButtonPressed(user: user));
-    }
-
     return BlocListener<LoginBloc, LoginState>(listener: (context, state) {
       if (state is LoginFailure) {
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text('${state.errorMessage}'),
           backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
         ));
+      }
+      if (state is LoginSuccess) {
+        Navigator.pushReplacement(context, FadeRoute(page: Home()));
       }
     }, child: BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
@@ -72,25 +103,28 @@ class _LoginState extends State<Login> {
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         autofocus: false,
-                        //initialValue: '',
                         controller: _usernameController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.email),
-                          hintText: 'Email Address',
+                          labelText: "Email",
+                          // hintText: 'Email Address',
+                          errorText: (state is UsernameError)
+                              ? state.errorMessage
+                              : null,
                           contentPadding:
                               const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16.0),
                             borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 1.0,
+                              width: 1.5,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16.0),
                             borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 1.0,
+                              width: 1.5,
                             ),
                           ),
                         ),
@@ -100,27 +134,29 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.fromLTRB(32.0, 8.0, 32, 8.0),
                       child: TextFormField(
                         autofocus: false,
-                        //initialValue: '',
                         obscureText: true,
                         controller: _passwordController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(FontAwesomeIcons.key),
-                          //isabledBorder: true,
-                          hintText: 'Password',
+                          errorText: (state is PasswordError)
+                              ? state.errorMessage
+                              : null,
+                          //hintText: 'Password',
+                          labelText: 'Password',
                           contentPadding:
                               const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16.0),
                             borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 1.0,
+                              width: 1.5,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16.0),
                             borderSide: BorderSide(
                               color: Theme.of(context).primaryColor,
-                              width: 1.0,
+                              width: 1.5,
                             ),
                           ),
                         ),
@@ -138,7 +174,7 @@ class _LoginState extends State<Login> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            onPressed: state is! LoginLoading
+                            onPressed: (state is IsFormValid)
                                 ? _onLoginButtonPressed
                                 : null,
                             splashColor: Color(0xffd4af37),

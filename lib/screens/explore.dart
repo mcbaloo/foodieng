@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodieng/blocs/appbar/index.dart';
 import 'package:foodieng/widgets/appbar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/widgets/home_item.dart';
@@ -16,7 +17,7 @@ class Explore extends StatelessWidget {
       FontAwesomeIcons.eye,
     ];
     return Scaffold(
-      appBar: designBar(context),
+      //appBar: designBar(context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
