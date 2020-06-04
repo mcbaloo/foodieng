@@ -26,6 +26,7 @@ class VideoModel {
       title: json["title"] as String,
       duration: json["duration"] as String,
       description: json["description"] as String,
+      //videoUrl: json["unsecured_ur"] as String,
       videoUrl: json["content_url"] as String,
       uploader: json["first_name"] as String,
       uploadedDate: json["uploaded_time"] as String));

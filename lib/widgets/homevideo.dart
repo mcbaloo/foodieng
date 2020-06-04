@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodieng/blocs/Home_Video/Home_Video_bloc.dart';
+import 'package:foodieng/blocs/Home_Video/index.dart';
 import 'package:foodieng/models/videos.dart';
 import 'package:foodieng/utils/vidoesutil.dart';
 import 'package:foodieng/widgets/home_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/widgets/loading.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:video_player/video_player.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -15,13 +20,11 @@ class HomeVideo extends StatefulWidget {
 }
 
 class _HomeVideoState extends State<HomeVideo> {
-  Future<VideoModel> VideoListFuture;
-  VideoUtils videos = new VideoUtils();
+  VideoUtils videoUtil = VideoUtils();
+  final HomeVideoBloc _homeBloc = HomeVideoBloc();
   VideoPlayerController _controller;
   void initState() {
-    setState(() {
-      VideoListFuture = videos.getAllVideos();
-    });
+    _homeBloc.add(Fetch());
     super.initState();
   }
 
@@ -33,44 +36,57 @@ class _HomeVideoState extends State<HomeVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<VideoModel>(
-      future: VideoListFuture,
-      builder: (ctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            if (snapshot.data.videoList != null) {
-              if (snapshot.data.videoList.length > 0) {
-                return Row(
-                  children: <Widget>[
-                    Flexible(
-                      child: ListView.builder(
-                        itemCount: snapshot.data.videoList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return (videoItemUi(snapshot.data.videoList[index],
-                              context, _controller));
-                        },
-                      ),
-                    )
-                  ],
-                );
-              } else {
-                return message("No Data at the moment", Colors.green,
-                    MediaQuery.of(context).size.width / 20);
-              }
-            } else {
-              return message("No Data at the moment", Colors.green,
-                  MediaQuery.of(context).size.width / 20);
-            }
-          } else {
-            return message("No Data at the moment", Colors.green,
-                MediaQuery.of(context).size.width / 20);
-          }
-        } else if (snapshot.hasError) {
-          return message("Something went wrong", Colors.red,
-              MediaQuery.of(context).size.width / 20);
-        } else {
-          return LoadingWidget();
+    return BlocBuilder<HomeVideoBloc, HomeVideoState>(
+      bloc: _homeBloc,
+      builder: (context, state) {
+        if (state is HomeVideoUninitialized) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                  child: new SizedBox(
+                      width: 40.0,
+                      height: 40.0,
+                      child: CircularProgressIndicator(
+                          backgroundColor: Theme.of(context).primaryColor))),
+            ],
+          );
         }
+        if (state is ErrorHomeVideo) {
+          return Center(
+            child: Text(
+              state.errorMessage,
+              style: TextStyle(color: Colors.red, fontSize: 20),
+            ),
+          );
+        }
+        if (state is HomeVideoLoaded) {
+          if (state.videoModel.videoList.isEmpty) {
+            return Center(
+              child: Text(
+                'No Content at the moment',
+                style: TextStyle(
+                    fontSize: 20, color: Theme.of(context).primaryColor),
+              ),
+            );
+          }
+          return Row(
+            children: <Widget>[
+              Flexible(
+                child: ListView.builder(
+                  itemCount: state.videoModel.videoList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return (videoItemUi(state.videoModel.videoList[index],
+                        context, _controller));
+                  },
+                ),
+              )
+            ],
+          );
+        }
+        return Center(
+          child: Text("Ode Oshi"),
+        );
       },
     );
   }
@@ -124,12 +140,17 @@ Widget videoItemUi(
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 0),
-                        child: Text(model.uploader),
+                        padding: const EdgeInsets.fromLTRB(16.0, 8, 8, 0),
+                        child: Text(
+                          model.uploader,
+                          style:
+                              TextStyle(fontFamily: "Gill Bold", fontSize: 15),
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 2.0, 8, 0),
-                        child: Text("Life Blogger"),
+                        padding: const EdgeInsets.fromLTRB(16.0, 2.0, 8, 0),
+                        child: Text("Life Blogger",
+                            style: TextStyle(color: Color(0xff989898))),
                       )
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,7 +217,7 @@ Widget videoItemUi(
             ),
             Positioned(
               bottom: padwidget(20, context),
-              right: padwidget(12, context),
+              right: padwidget(20, context),
               child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
@@ -222,13 +243,13 @@ Widget videoItemUi(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
                     model.title,
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
               ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: 6.0),
                   child:
                       Text(timeago.format(DateTime.parse(model.uploadedDate))),
                 ),

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer' as developer;
-
 import 'package:bloc/bloc.dart';
 import 'package:foodieng/blocs/appbar/index.dart';
 import 'package:foodieng/utils/login_util.dart';

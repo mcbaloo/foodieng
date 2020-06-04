@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodieng/blocs/Home_Video/index.dart';
 import 'package:foodieng/blocs/appbar/index.dart';
-import 'package:foodieng/blocs/home_bloc.dart';
+import 'package:foodieng/blocs/bottom_nav/index.dart';
 import 'package:foodieng/blocs/login/login/index.dart';
-import 'package:foodieng/models/videos.dart';
 import 'package:foodieng/screens/account.dart';
 import 'package:foodieng/screens/trending.dart';
 import 'package:foodieng/utils/fadein.dart';
-import 'package:foodieng/utils/vidoesutil.dart';
-import 'package:foodieng/widgets/appbar.dart';
 import 'package:foodieng/widgets/homevideo.dart';
-import 'dart:async';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -22,14 +19,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  AppbarBloc _bloc = AppbarBloc();
+  BottomNavBloc _bloc = BottomNavBloc();
   int _currentIndex = 0;
-  void onTappedBar(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -51,9 +42,12 @@ class _HomeState extends State<Home> {
           BlocProvider<LoginBloc>(
             create: (BuildContext context) => LoginBloc(),
           ),
-          // BlocProvider<BlocC>(
-          //   create: (BuildContext context) => BlocC(),
-          // ),
+          BlocProvider<LoginBloc>(
+            create: (BuildContext context) => LoginBloc(),
+          ),
+          BlocProvider<HomeVideoBloc>(
+            create: (BuildContext context) => HomeVideoBloc(),
+          ),
         ],
         child: MultiBlocListener(
             listeners: [
@@ -117,64 +111,73 @@ class _HomeState extends State<Home> {
                     elevation: 2,
                   ),
                   //designBar(context),
-                  body: BlocBuilder<LoginBloc, LoginState>(
+                  body: BlocBuilder<BottomNavBloc, BottomNavState>(
+                      bloc: _bloc,
                       builder: (context, state) {
-                    return (state is LoginInitial)
-                        ? Container(
-                            child: Center(
-                              child: Text("Here"),
+                        return
+                            //(state is LoginInitial)
+                            // ? Container(
+                            //     child: Center(
+                            //       child: Text("Here"),
+                            //     ),
+                            //   )
+                            // :
+                            Container(
+                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                          child: IndexedStack(
+                            children: <Widget>[
+                              HomeVideo(),
+                              Trending(),
+                            ],
+                            index: _bloc.currentIndex,
+                          ),
+                        );
+                      }),
+                  bottomNavigationBar: BlocBuilder<BottomNavBloc,
+                          BottomNavState>(
+                      bloc: _bloc,
+                      builder: (context, state) {
+                        return BottomNavigationBar(
+                          type: BottomNavigationBarType.fixed,
+                          onTap: (index) => _bloc.add(ItemTap(index: index)),
+                          // onTappedBar,
+                          currentIndex: _bloc.currentIndex,
+                          //fixedColor: Theme.of(context).primaryColor,
+                          items: [
+                            BottomNavigationBarItem(
+                              backgroundColor: Colors.white,
+                              icon: Icon(Icons.home,
+                                  size: 25.0,
+                                  color: _bloc.currentIndex == 0
+                                      ? Theme.of(context).primaryColor
+                                      : Color(0xFFB4C1C4)),
+                              title: Text("Home",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor)),
                             ),
-                          )
-                        : Container(
-                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                            child: IndexedStack(
-                              children: <Widget>[
-                                HomeVideo(),
-                                Trending(),
-                              ],
-                              index: _currentIndex,
+                            BottomNavigationBarItem(
+                              backgroundColor: Colors.white,
+                              icon: Icon(FontAwesomeIcons.fire,
+                                  size: 25.0,
+                                  color: _bloc.currentIndex == 1
+                                      ? Theme.of(context).primaryColor
+                                      : Color(0xFFB4C1C4)),
+                              title: Text("Trending",
+                                  style: TextStyle(color: Color(0xFFB4C1C4))),
                             ),
-                          );
-                  }),
-                  bottomNavigationBar: BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    onTap: onTappedBar,
-                    currentIndex: _currentIndex,
-                    //fixedColor: Theme.of(context).primaryColor,
-                    items: [
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.white,
-                        icon: Icon(Icons.home,
-                            size: 20.0,
-                            color: _currentIndex == 0
-                                ? Theme.of(context).primaryColor
-                                : Color(0xFFB4C1C4)),
-                        title: Text("Home",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor)),
-                      ),
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.white,
-                        icon: Icon(FontAwesomeIcons.fire,
-                            size: 20.0,
-                            color: _currentIndex == 1
-                                ? Theme.of(context).primaryColor
-                                : Color(0xFFB4C1C4)),
-                        title: Text("Trending",
-                            style: TextStyle(color: Color(0xFFB4C1C4))),
-                      ),
-                      BottomNavigationBarItem(
-                        backgroundColor: Colors.white,
-                        icon: Icon(Icons.subscriptions,
-                            size: 20.0,
-                            color: _currentIndex == 2
-                                ? Theme.of(context).primaryColor
-                                : Color(0xFFB4C1C4)),
-                        title: Text("Library",
-                            style: TextStyle(color: Color(0xFFB4C1C4))),
-                      )
-                    ],
-                  ));
+                            BottomNavigationBarItem(
+                              backgroundColor: Colors.white,
+                              icon: Icon(Icons.subscriptions,
+                                  size: 25.0,
+                                  color: _bloc.currentIndex == 2
+                                      ? Theme.of(context).primaryColor
+                                      : Color(0xFFB4C1C4)),
+                              title: Text("Library",
+                                  style: TextStyle(color: Color(0xFFB4C1C4))),
+                            )
+                          ],
+                        );
+                      }));
             })
             //ChildA(),
             ));

@@ -9,7 +9,7 @@ Widget rowActivities(IconData icon, String text, BuildContext context) {
         Icon(
           icon,
           //color: Colors.blue,
-          size: 19.5,
+          size: 15,
         ),
         SizedBox(
           width: 5,
