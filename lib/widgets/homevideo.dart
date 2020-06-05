@@ -31,7 +31,7 @@ class _HomeVideoState extends State<HomeVideo> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    //_controller.dispose();
   }
 
   @override
@@ -85,7 +85,7 @@ class _HomeVideoState extends State<HomeVideo> {
           );
         }
         return Center(
-          child: Text("Ode Oshi"),
+          child: Text(""),
         );
       },
     );

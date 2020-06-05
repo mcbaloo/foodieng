@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/blocs/Home_Video/index.dart';
+import 'package:foodieng/blocs/Trending_Video/index.dart';
 import 'package:foodieng/blocs/appbar/index.dart';
 import 'package:foodieng/blocs/bottom_nav/index.dart';
 import 'package:foodieng/blocs/login/login/index.dart';
@@ -31,6 +32,10 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
+  final List<Widget> _children = [
+    new HomeVideo(),
+    new Trending(),
+  ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -47,6 +52,9 @@ class _HomeState extends State<Home> {
           ),
           BlocProvider<HomeVideoBloc>(
             create: (BuildContext context) => HomeVideoBloc(),
+          ),
+          BlocProvider<TrendingVideoBloc>(
+            create: (BuildContext context) => TrendingVideoBloc(),
           ),
         ],
         child: MultiBlocListener(
@@ -124,13 +132,14 @@ class _HomeState extends State<Home> {
                             // :
                             Container(
                           padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                          child: IndexedStack(
-                            children: <Widget>[
-                              HomeVideo(),
-                              Trending(),
-                            ],
-                            index: _bloc.currentIndex,
-                          ),
+                          child: _children.elementAt(_bloc.currentIndex),
+                          //  IndexedStack(
+                          //   children: <Widget>[
+                          //     HomeVideo(),
+                          //     Trending(),
+                          //   ],
+                          //   index: _bloc.currentIndex,
+                          // ),
                         );
                       }),
                   bottomNavigationBar: BlocBuilder<BottomNavBloc,
@@ -149,7 +158,7 @@ class _HomeState extends State<Home> {
                               icon: Icon(Icons.home,
                                   size: 25.0,
                                   color: _bloc.currentIndex == 0
-                                      ? Theme.of(context).primaryColor
+                                      ? Color(0xff462618)
                                       : Color(0xFFB4C1C4)),
                               title: Text("Home",
                                   style: TextStyle(
@@ -160,7 +169,7 @@ class _HomeState extends State<Home> {
                               icon: Icon(FontAwesomeIcons.fire,
                                   size: 25.0,
                                   color: _bloc.currentIndex == 1
-                                      ? Theme.of(context).primaryColor
+                                      ? Color(0xff462618)
                                       : Color(0xFFB4C1C4)),
                               title: Text("Trending",
                                   style: TextStyle(color: Color(0xFFB4C1C4))),
@@ -170,7 +179,7 @@ class _HomeState extends State<Home> {
                               icon: Icon(Icons.subscriptions,
                                   size: 25.0,
                                   color: _bloc.currentIndex == 2
-                                      ? Theme.of(context).primaryColor
+                                      ? Color(0xff462618)
                                       : Color(0xFFB4C1C4)),
                               title: Text("Library",
                                   style: TextStyle(color: Color(0xFFB4C1C4))),
