@@ -6,11 +6,16 @@ import 'package:foodieng/blocs/Home_Video/index.dart';
 import 'package:foodieng/blocs/Trending_Video/index.dart';
 import 'package:foodieng/blocs/appbar/index.dart';
 import 'package:foodieng/blocs/bottom_nav/index.dart';
+import 'package:foodieng/blocs/explore/explore_bloc.dart';
 import 'package:foodieng/blocs/login/login/index.dart';
 import 'package:foodieng/screens/account.dart';
+import 'package:foodieng/screens/explore.dart';
+import 'package:foodieng/screens/library.dart';
 import 'package:foodieng/screens/trending.dart';
 import 'package:foodieng/utils/fadein.dart';
+import 'package:foodieng/widgets/comment.dart';
 import 'package:foodieng/widgets/homevideo.dart';
+import 'package:foodieng/utils/login_util.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -21,7 +26,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   BottomNavBloc _bloc = BottomNavBloc();
-  int _currentIndex = 0;
+  UserRepository repository = UserRepository();
   @override
   void initState() {
     super.initState();
@@ -32,9 +37,15 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  final List<Widget> _children = [
+  List<Widget> _children = [
+    //new LoginHome(),
     new HomeVideo(),
+    //new Comment(),
+    new Explore(),
     new Trending(),
+    new Library(),
+    new Library(),
+    new Library(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -55,6 +66,9 @@ class _HomeState extends State<Home> {
           ),
           BlocProvider<TrendingVideoBloc>(
             create: (BuildContext context) => TrendingVideoBloc(),
+          ),
+          BlocProvider<ExploreBloc>(
+            create: (BuildContext context) => ExploreBloc(),
           ),
         ],
         child: MultiBlocListener(
@@ -102,10 +116,8 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                           child: (state is ISLoggedIn)
                               ? IconButton(
-                                  onPressed: () => {
-                                    Navigator.push(
-                                        context, FadeRoute(page: Account()))
-                                  },
+                                  onPressed: () => Navigator.push(
+                                      context, FadeRoute(page: Account())),
                                   icon: Icon(
                                     Icons.account_circle,
                                     size: 30.0,
@@ -122,25 +134,7 @@ class _HomeState extends State<Home> {
                   body: BlocBuilder<BottomNavBloc, BottomNavState>(
                       bloc: _bloc,
                       builder: (context, state) {
-                        return
-                            //(state is LoginInitial)
-                            // ? Container(
-                            //     child: Center(
-                            //       child: Text("Here"),
-                            //     ),
-                            //   )
-                            // :
-                            Container(
-                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                          child: _children.elementAt(_bloc.currentIndex),
-                          //  IndexedStack(
-                          //   children: <Widget>[
-                          //     HomeVideo(),
-                          //     Trending(),
-                          //   ],
-                          //   index: _bloc.currentIndex,
-                          // ),
-                        );
+                        return _children.elementAt(_bloc.currentIndex);
                       }),
                   bottomNavigationBar: BlocBuilder<BottomNavBloc,
                           BottomNavState>(
@@ -166,9 +160,69 @@ class _HomeState extends State<Home> {
                             ),
                             BottomNavigationBarItem(
                               backgroundColor: Colors.white,
+                              icon: Icon(
+                                FontAwesomeIcons.compass,
+                                size: 25.0,
+                                color: _bloc.currentIndex == 1
+                                    ? Color(0xff462618)
+                                    : Color(0xFFB4C1C4),
+                              ),
+                              title: Text("Explore",
+                                  style: TextStyle(color: Color(0xFFB4C1C4))),
+                            ),
+                            BottomNavigationBarItem(
+                                backgroundColor: Colors.white,
+                                icon: Icon(
+                                  Icons.add_circle,
+                                  size: 40.0,
+                                  color: _bloc.currentIndex == 2
+                                      ? Color(0xff462618)
+                                      : Color(0xFFB4C1C4),
+                                ),
+                                title: Text('')),
+                            BottomNavigationBarItem(
+                              backgroundColor: Colors.white,
+                              icon: new Stack(children: <Widget>[
+                                new Icon(
+                                  Icons.favorite,
+                                  size: 25.0,
+                                  color: _bloc.currentIndex == 3
+                                      ? Color(0xff462618)
+                                      : Color(0xFFB4C1C4),
+                                ),
+                                new Positioned(
+                                  // top: -1.0,
+                                  // right: -1.0,
+                                  right: 0,
+                                  child: new Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: new BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    constraints: BoxConstraints(
+                                      minWidth: 12,
+                                      minHeight: 12,
+                                    ),
+                                    child: new Text(
+                                      '100',
+                                      style: new TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                )
+                              ]),
+                              title: Text("Likes",
+                                  style: TextStyle(color: Color(0xFFB4C1C4))),
+                            ),
+                            BottomNavigationBarItem(
+                              backgroundColor: Colors.white,
                               icon: Icon(FontAwesomeIcons.fire,
                                   size: 25.0,
-                                  color: _bloc.currentIndex == 1
+                                  color: _bloc.currentIndex == 4
                                       ? Color(0xff462618)
                                       : Color(0xFFB4C1C4)),
                               title: Text("Trending",
@@ -178,7 +232,7 @@ class _HomeState extends State<Home> {
                               backgroundColor: Colors.white,
                               icon: Icon(Icons.subscriptions,
                                   size: 25.0,
-                                  color: _bloc.currentIndex == 2
+                                  color: _bloc.currentIndex == 5
                                       ? Color(0xff462618)
                                       : Color(0xFFB4C1C4)),
                               title: Text("Library",

@@ -64,173 +64,187 @@ class _LoginState extends State<Login> {
       }
     }, child: BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height / 2.3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Image(
-                      colorBlendMode: BlendMode.softLight,
-                      image: AssetImage("assets/images/foodieng_logo.png"),
-                    ),
-                  ],
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              color: Theme.of(context).primaryColor,
+              iconSize: MediaQuery.of(context).size.width / 12,
+              onPressed: () => Navigator.pop(context, false),
+              icon: Icon(Icons.arrow_back),
+            ),
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Image(
+                        colorBlendMode: BlendMode.softLight,
+                        image: AssetImage("assets/images/foodieng_logo.png"),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Sign In",
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: MediaQuery.of(context).size.width / 18),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 50,
-                    ),
-                    Text('Enjoy our application'),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 55,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8.0, 32, 8.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        autofocus: false,
-                        controller: _usernameController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          labelText: "Email",
-                          // hintText: 'Email Address',
-                          errorText: (state is UsernameError)
-                              ? state.errorMessage
-                              : null,
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 1.5,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(32.0, 8.0, 32, 8.0),
-                      child: TextFormField(
-                        autofocus: false,
-                        obscureText: true,
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(FontAwesomeIcons.key),
-                          errorText: (state is PasswordError)
-                              ? state.errorMessage
-                              : null,
-                          //hintText: 'Password',
-                          labelText: 'Password',
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 1.5,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 60,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 1.0),
-                          child: RaisedButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            onPressed: (state is IsFormValid)
-                                ? _onLoginButtonPressed
-                                : null,
-                            splashColor: Color(0xffd4af37),
-                            padding: EdgeInsets.all(12),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Sign In",
+                        style: TextStyle(
                             color: Theme.of(context).primaryColor,
-                            child: Text('Sign In',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width /
-                                            25)),
+                            fontSize: MediaQuery.of(context).size.width / 18),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 50,
+                      ),
+                      Text('Enjoy our application'),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 55,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(32, 8.0, 32, 8.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          autofocus: false,
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.email),
+                            labelText: "Email",
+                            // hintText: 'Email Address',
+                            errorText: (state is UsernameError)
+                                ? state.errorMessage
+                                : null,
+                            contentPadding: const EdgeInsets.fromLTRB(
+                                20.0, 10.0, 20.0, 10.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 1.5,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 1.5,
+                              ),
+                            ),
                           ),
                         ),
-                        SizedBox(
-                          width: 2,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(32.0, 8.0, 32, 8.0),
+                        child: TextFormField(
+                          autofocus: false,
+                          obscureText: true,
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(FontAwesomeIcons.key),
+                            errorText: (state is PasswordError)
+                                ? state.errorMessage
+                                : null,
+                            //hintText: 'Password',
+                            labelText: 'Password',
+                            contentPadding: const EdgeInsets.fromLTRB(
+                                20.0, 10.0, 20.0, 10.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 1.5,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 1.5,
+                              ),
+                            ),
+                          ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.0),
-                          child: Container(
-                              child: state is LoginLoading
-                                  ? CircularProgressIndicator(
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
-                                    )
-                                  : null),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Don’t have an account?',
-                          style: TextStyle(
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 60,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 1.0),
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              onPressed: (state is IsFormValid)
+                                  ? _onLoginButtonPressed
+                                  : null,
+                              splashColor: Colors.white,
+                              padding: EdgeInsets.all(12),
                               color: Theme.of(context).primaryColor,
-                              fontSize: MediaQuery.of(context).size.width / 25),
-                        ),
-                        SizedBox(
-                          width: 2,
-                        ),
-                        FlatButton(
-                          child: Text(
-                            'Register',
+                              child: Text('Sign In',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width /
+                                              25)),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0),
+                            child: Container(
+                                child: state is LoginLoading
+                                    ? CircularProgressIndicator(
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor,
+                                      )
+                                    : null),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Don’t have an account?',
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize:
-                                    MediaQuery.of(context).size.width / 30),
+                                    MediaQuery.of(context).size.width / 25),
                           ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ],
+                          SizedBox(
+                            width: 2,
+                          ),
+                          FlatButton(
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 30),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
         //);

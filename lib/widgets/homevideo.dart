@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/Home_Video/Home_Video_bloc.dart';
 import 'package:foodieng/blocs/Home_Video/index.dart';
+import 'package:foodieng/blocs/auth/auth_bloc/auth_bloc_bloc.dart';
+import 'package:foodieng/blocs/auth/auth_bloc/auth_bloc_event.dart';
+import 'package:foodieng/blocs/auth/auth_bloc/auth_bloc_state.dart';
 import 'package:foodieng/models/videos.dart';
+import 'package:foodieng/screens/login_home.dart';
+import 'package:foodieng/utils/login_util.dart';
 import 'package:foodieng/utils/vidoesutil.dart';
+import 'package:foodieng/widgets/error.dart';
 import 'package:foodieng/widgets/home_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/widgets/loading.dart';
@@ -21,10 +27,13 @@ class HomeVideo extends StatefulWidget {
 
 class _HomeVideoState extends State<HomeVideo> {
   VideoUtils videoUtil = VideoUtils();
+  UserRepository repository = UserRepository();
   final HomeVideoBloc _homeBloc = HomeVideoBloc();
+  AuthBlocBloc _authBlocBloc;
   VideoPlayerController _controller;
   void initState() {
     _homeBloc.add(Fetch());
+    BlocProvider.of<AuthBlocBloc>(context).add(AppStarted());
     super.initState();
   }
 
@@ -34,60 +43,100 @@ class _HomeVideoState extends State<HomeVideo> {
     //_controller.dispose();
   }
 
+  reloadPage() {
+    _homeBloc.add(Fetch());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeVideoBloc, HomeVideoState>(
-      bloc: _homeBloc,
-      builder: (context, state) {
-        if (state is HomeVideoUninitialized) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                  child: new SizedBox(
-                      width: 40.0,
-                      height: 40.0,
-                      child: CircularProgressIndicator(
-                          backgroundColor: Theme.of(context).primaryColor))),
-            ],
-          );
-        }
-        if (state is ErrorHomeVideo) {
-          return Center(
-            child: Text(
-              state.errorMessage,
-              style: TextStyle(color: Colors.red, fontSize: 20),
-            ),
-          );
-        }
-        if (state is HomeVideoLoaded) {
-          if (state.videoModel.videoList.isEmpty) {
-            return Center(
-              child: Text(
-                'No Content at the moment',
-                style: TextStyle(
-                    fontSize: 20, color: Theme.of(context).primaryColor),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeVideoBloc>(
+          create: (BuildContext context) => HomeVideoBloc(),
+        ),
+        BlocProvider<AuthBlocBloc>(
+          create: (BuildContext context) => AuthBlocBloc(repository),
+        )
+      ],
+      child: BlocBuilder<HomeVideoBloc, HomeVideoState>(
+        bloc: _homeBloc,
+        builder: (context, state) {
+          if (state is HomeVideoUninitialized) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                      child: new SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: CircularProgressIndicator(
+                              backgroundColor:
+                                  Theme.of(context).primaryColor))),
+                ],
               ),
             );
           }
-          return Row(
-            children: <Widget>[
-              Flexible(
-                child: ListView.builder(
-                  itemCount: state.videoModel.videoList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return (videoItemUi(state.videoModel.videoList[index],
-                        context, _controller));
-                  },
+          if (state is ErrorHomeVideo) {
+            return Error(action: () {
+              reloadPage();
+            });
+            // return Center(
+            //   child: Text(
+            //     state.errorMessage,
+            //     style: TextStyle(color: Colors.red, fontSize: 20),
+            //   ),
+            // );
+          }
+          if (state is HomeVideoLoaded) {
+            if (state.videoModel.videoList.isEmpty) {
+              return Center(
+                child: Text(
+                  'No Content at the moment',
+                  style: TextStyle(
+                      fontSize: 20, color: Theme.of(context).primaryColor),
                 ),
-              )
-            ],
+              );
+            }
+            return Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16, top: 8, left: 8),
+                  child: BlocBuilder<AuthBlocBloc, AuthBlocState>(
+                    bloc: _authBlocBloc,
+                    builder: (context, state) {
+                      if (state is AuthAuthenticated) {
+                        return LoginHome();
+                      } else {
+                        return Container(
+                          child: null,
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: ListView.builder(
+                      primary: false,
+                      itemCount: state.videoModel.videoList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return (videoItemUi(state.videoModel.videoList[index],
+                            context, _controller));
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          return Center(
+            child: Text(""),
           );
-        }
-        return Center(
-          child: Text(""),
-        );
-      },
+        },
+      ),
     );
   }
 }

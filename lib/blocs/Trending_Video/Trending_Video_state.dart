@@ -21,8 +21,8 @@ class TrendingVideoUnInitialized extends TrendingVideoState {
 /// Initialized
 class TrendingVideoLoaded extends TrendingVideoState {
   final VideoModel videoModel;
-
-  TrendingVideoLoaded({@required this.videoModel});
+  final int tapIndex;
+  TrendingVideoLoaded({@required this.videoModel, @required this.tapIndex});
 
   @override
   String toString() => 'TrendingVideoLoaded';

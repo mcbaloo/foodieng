@@ -16,6 +16,7 @@ class HomeVideoBloc extends Bloc<HomeVideoEvent, HomeVideoState> {
     try {
       if (event is Fetch) {
         yield HomeVideoUninitialized();
+        Future.delayed(Duration(seconds: 2));
         final videos = await videoUtils.getAllVideos();
         yield HomeVideoLoaded(videoModel: videos);
       }

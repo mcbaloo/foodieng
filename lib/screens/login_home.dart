@@ -21,294 +21,522 @@ class _LoginHomeState extends State<LoginHome> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: false,
-          iconTheme: new IconThemeData(color: Theme.of(context).primaryColor),
-          title: SizedBox(
-            width: MediaQuery.of(context).size.width / 2.8,
-            child: Image(
-              image: AssetImage("assets/images/foodieng_logo.png"),
-            ),
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 4, 8, 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                "View All  >>",
+                style: TextStyle(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor),
+              )
+            ],
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () => {showSearch(context: context, delegate: null)},
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-              child: Icon(Icons.account_circle),
-            )
-          ],
-          elevation: 2,
         ),
-        body: ListView(
-          children: <Widget>[
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+        Container(
+          height: MediaQuery.of(context).size.height / 6,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            primary: false,
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: 8, left: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
                     children: <Widget>[
-                      Text(
-                        "View All >>",
-                        style: TextStyle(fontSize: 18),
+                      Image.asset(
+                        "assets/images/food2.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
                       )
                     ],
                   ),
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 4,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
                     children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        decoration: BoxDecoration(
-                            //color: Color(0xff414D55),
-                            borderRadius: BorderRadius.circular(16)),
-                        child: GridTile(
-                          child: Image(
-                            fit: BoxFit.fitHeight,
-                            colorBlendMode: BlendMode.softLight,
-                            image: AssetImage("assets/images/bowl.png"),
-                          ),
-                          footer: GridTileBar(
-                            title: Padding(
-                              padding: EdgeInsets.only(top: 15),
-                              child: Text(
-                                "Werey",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                            ),
-                            subtitle: Padding(
-                              padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
-                              child: Text("Flowing"),
-                            ),
-                          ),
-                        ),
+                      Image.asset(
+                        "assets/images/food1.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width / 2,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16)),
-                        child: GridTile(
-                          child: Image(
-                            fit: BoxFit.fill,
-                            colorBlendMode: BlendMode.softLight,
-                            image: AssetImage("assets/images/chicken.png"),
-                          ),
-                          footer: GridTileBar(
-                            title: Padding(
-                              padding: EdgeInsets.only(top: 15),
-                              child: Text(
-                                "Werey",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                            ),
-                            subtitle: Padding(
-                              padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
-                              child: Text("Flowing"),
-                            ),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
                           ),
                         ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16)),
-                        child: GridTile(
-                          child: Image(
-                            fit: BoxFit.fill,
-                            colorBlendMode: BlendMode.softLight,
-                            image: AssetImage("assets/images/cooking.png"),
-                          ),
-                          footer: GridTileBar(
-                            title: Padding(
-                              padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
-                              child: Text(
-                                "Werey",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                            ),
-                            subtitle: Padding(
-                              padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
-                              child: Text("Flowing"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16)),
-                        child: GridTile(
-                          child: Image(
-                            fit: BoxFit.fill,
-                            colorBlendMode: BlendMode.softLight,
-                            image: AssetImage("assets/images/basin.png"),
-                          ),
-                          footer: GridTileBar(
-                            title: Padding(
-                              padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
-                              child: Text(
-                                "Werey",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                            ),
-                            subtitle: Padding(
-                              padding: EdgeInsets.fromLTRB(8, 0, 0, 10),
-                              child: Text("Flowing"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              CircleAvatar(
-                                radius: padwidget(16, context),
-                                backgroundColor: Theme.of(context).accentColor,
-                                backgroundImage:
-                                    AssetImage("assets/images/82.png"),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          8.0, 0, 8, 0),
-                                      child: Text("Mcbaloo"),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          8.0, 2.0, 8, 0),
-                                      child: Text("Life Blogger"),
-                                    )
-                                  ],
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
                                 ),
-                                flex: 9,
                               ),
-                              Expanded(
-                                child: Icon(Icons.more_vert),
-                                flex: 1,
-                              ),
-                            ]),
-                      ),
-                      Stack(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Image(
-                              //width: 10,
-                              fit: BoxFit.contain,
-                              image: AssetImage("assets/images/default.png"),
-                            ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
                           ),
-                          Positioned(
-                            bottom: padwidget(20, context),
-                            right: padwidget(12, context),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    color: Theme.of(context).primaryColor),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      8.0, 4.0, 8.0, 4.0),
-                                  child: Text(
-                                    "3:14",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                )),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                              child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                padwidget(15, context),
-                                padwidget(35, context),
-                                padwidget(20, context),
-                                0),
-                            child: Text("Jollof Rice Receipe"),
-                          )),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      rowActivities(_icons[0], "247", context),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      rowActivities(_icons[1], "50", context),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      rowActivities(_icons[2], "60", context),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child:
-                                      rowActivities(_icons[3], "47", context),
-                                ),
-                              ],
-                            ),
-                            Text("View More")
-                          ],
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/food3.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/food4.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/food5.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/food6.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/food7.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/food11.jpeg",
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            // Add one stop for each color. Stops should increase from 0 to 1
+                            stops: [0.2, 0.7],
+                            colors: [
+                              Color.fromARGB(100, 0, 0, 0),
+                              Color.fromARGB(100, 0, 0, 0),
+                            ],
+                            // stops: [0.0, 0.1],
+                          ),
+                        ),
+                        height: MediaQuery.of(context).size.height / 6,
+                        width: MediaQuery.of(context).size.height / 6,
+                      ),
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 6,
+                          width: MediaQuery.of(context).size.height / 6,
+                          padding: EdgeInsets.all(1),
+                          constraints:
+                              BoxConstraints(minHeight: 20, minWidth: 20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  "French Rice",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Text(
+                                "New line",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        bottomNavigationBar: bottomNav(context));
+      ],
+    );
   }
 }

@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/Trending_Video/index.dart';
 import 'package:foodieng/utils/vidoesutil.dart';
-import 'package:foodieng/widgets/appbar.dart';
-import 'package:foodieng/widgets/guest_bottom.dart';
-import 'package:foodieng/widgets/home_item.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/widgets/homevideo.dart';
 import 'package:video_player/video_player.dart';
+import 'package:foodieng/widgets/error.dart';
 
 class Trending extends StatefulWidget {
   Trending({Key key}) : super(key: key);
@@ -21,15 +18,19 @@ class _TrendingState extends State<Trending> {
   final TrendingVideoBloc _trendingBloc = TrendingVideoBloc();
   VideoPlayerController _controller;
   void initState() {
-    print("here");
-    _trendingBloc.add(Fetch(type: "video"));
+    // _trendingBloc.add(Fetch(type: "video"));
+    sortContent(type: "Video");
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    // _controller.dispose();
+    //_controller.dispose();
+  }
+
+  void sortContent({@required String type}) {
+    _trendingBloc.add(Fetch(type: type));
   }
 
   Widget build(BuildContext context) {
@@ -47,119 +48,136 @@ class _TrendingState extends State<Trending> {
                           backgroundColor: Theme.of(context).primaryColor)));
             }
             if (state is ErrorTrendingVideoState) {
-              return Column(
-                children: <Widget>[
-                  header(),
-                  Center(
-                    child: Text(
-                      'An Error Occureds',
-                      style: TextStyle(fontSize: 20, color: Colors.red),
-                    ),
-                  ),
-                ],
+              //TrendingVideoLoaded loaded = TrendingVideoLoaded();
+              return Error(
+                action: () {
+                  sortContent(type: "Video");
+                },
               );
             }
             if (state is TrendingVideoLoaded) {
               if (state.videoModel.videoList.isEmpty) {
                 return Column(
                   children: <Widget>[
-                    header(),
-                    Center(
-                      child: Text(
-                        'No Content at the moment',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor),
+                    header(state),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Center(
+                        child: Text(
+                          'No Content at the moment',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).primaryColor),
+                        ),
                       ),
                     ),
                   ],
                 );
               }
               return Scaffold(
+                  backgroundColor: Colors.white,
                   body: Column(
-                children: <Widget>[
-                  header(),
-                  Flexible(
-                    child: ListView.builder(
-                      itemCount: state.videoModel.videoList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return (videoItemUi(state.videoModel.videoList[index],
-                            context, _controller));
-                      },
-                    ),
-                  ),
-                ],
-              ));
+                    children: <Widget>[
+                      header(state),
+                      Flexible(
+                        child: ListView.builder(
+                          itemCount: state.videoModel.videoList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return (videoItemUi(
+                                state.videoModel.videoList[index],
+                                context,
+                                _controller));
+                          },
+                        ),
+                      ),
+                    ],
+                  ));
             }
-            return header();
+            return header(state);
           },
         ));
   }
-}
 
-Widget header() {
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Row(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Color(0xff767261),
-                child: Center(
-                  child: Icon(
-                    Icons.book,
-                    color: Colors.white,
-                    size: 40,
+  Widget header(TrendingVideoLoaded state) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: <Widget>[
+          GestureDetector(
+            onTap: () => sortContent(type: "Video"),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: (state.tapIndex == 1)
+                        ? Color(0xff462618)
+                        : Color(0xFFB4C1C4),
+                    child: Center(
+                      child: Icon(
+                        Icons.movie,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
                   ),
-                ),
+                  Text("Videos")
+                ],
               ),
-              Text("Articles")
-            ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Color(0xff767261),
-                child: Center(
-                  child: Icon(
-                    Icons.list,
-                    color: Colors.white,
-                    size: 40,
+          GestureDetector(
+            onTap: () => sortContent(type: "Recipe"),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: (state.tapIndex == 2)
+                        ? Color(0xff462618)
+                        : Color(0xFFB4C1C4),
+                    child: Center(
+                      child: Icon(
+                        Icons.list,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
                   ),
-                ),
+                  Text("Recipes")
+                ],
               ),
-              Text("Recipes")
-            ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Color(0xff767261),
-                child: Center(
-                  child: Icon(
-                    Icons.movie,
-                    color: Colors.white,
-                    size: 40,
+          GestureDetector(
+            onTap: () => sortContent(type: "Article"),
+            //print("Articles"),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: (state.tapIndex == 3)
+                        ? Color(0xff462618)
+                        : Color(0xFFB4C1C4),
+                    child: Center(
+                      child: Icon(
+                        Icons.book,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
                   ),
-                ),
+                  Text("Articles")
+                ],
               ),
-              Text("Movies")
-            ],
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }

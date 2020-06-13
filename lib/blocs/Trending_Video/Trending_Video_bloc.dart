@@ -7,6 +7,7 @@ import 'package:foodieng/utils/vidoesutil.dart';
 
 class TrendingVideoBloc extends Bloc<TrendingVideoEvent, TrendingVideoState> {
   VideoUtils videoUtils = VideoUtils();
+  int index = 1;
   @override
   TrendingVideoState get initialState => TrendingVideoUnInitialized();
 
@@ -19,13 +20,27 @@ class TrendingVideoBloc extends Bloc<TrendingVideoEvent, TrendingVideoState> {
         yield TrendingVideoUnInitialized();
         try {
           final videos = await videoUtils.getTrendingContent(type: event.type);
-          yield TrendingVideoLoaded(videoModel: videos);
+          switch (event.type) {
+            case 'Video':
+              //index = 1;
+              yield TrendingVideoLoaded(videoModel: videos, tapIndex: index);
+              break;
+            case 'Recipe':
+              yield TrendingVideoLoaded(videoModel: videos, tapIndex: 2);
+              break;
+            case 'Article':
+              yield TrendingVideoLoaded(videoModel: videos, tapIndex: 3);
+              break;
+            default:
+              yield TrendingVideoLoaded(videoModel: videos, tapIndex: 1);
+              break;
+          }
         } catch (_) {
           yield ErrorTrendingVideoState(_);
         }
       }
     } catch (_, stackTrace) {
-      yield ErrorTrendingVideoState(_);
+      yield ErrorTrendingVideoState("Error");
     }
   }
 }
