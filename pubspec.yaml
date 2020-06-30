@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -30,6 +30,7 @@ dependencies:
   http: any
   font_awesome_flutter: ^8.2.0
   video_player:
+  chewie: ^0.9.10
   flutter_bloc:
   equatable: any
   flutter_svg: any

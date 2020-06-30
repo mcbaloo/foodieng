@@ -60,7 +60,9 @@ class _LoginState extends State<Login> {
         ));
       }
       if (state is LoginSuccess) {
-        Navigator.pushReplacement(context, FadeRoute(page: Home()));
+        Navigator.pushAndRemoveUntil(
+            context, FadeRoute(page: Home()), (route) => false);
+        //.pushReplacement(context, FadeRoute(page: Home()));
       }
     }, child: BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
@@ -191,7 +193,7 @@ class _LoginState extends State<Login> {
                                   : null,
                               splashColor: Colors.white,
                               padding: EdgeInsets.all(12),
-                              color: Theme.of(context).primaryColor,
+                              color: Color(0xff462618),
                               child: Text('Sign In',
                                   style: TextStyle(
                                       color: Colors.white,

@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:foodieng/models/user_response.dart';
+import 'package:foodieng/models/videos.dart';
 
 abstract class ExploreState extends Equatable {
   final List propss;
@@ -18,12 +21,14 @@ class UnExploreState extends ExploreState {
 
 /// Initialized
 class InExploreState extends ExploreState {
-  final String hello;
-
-  InExploreState(this.hello) : super([hello]);
+  final VideoModel video;
+  final UserResponse user;
+  final String type;
+  InExploreState(
+      {@required this.video, @required this.user, @required this.type});
 
   @override
-  String toString() => 'InExploreState $hello';
+  String toString() => 'InExploreState $video';
 }
 
 class ErrorExploreState extends ExploreState {
@@ -36,6 +41,8 @@ class ErrorExploreState extends ExploreState {
 }
 
 class CommentClick extends ExploreState {
+  final String commnetId;
+  CommentClick({@required this.commnetId});
   @override
   String toString() => 'CommentClick';
 }

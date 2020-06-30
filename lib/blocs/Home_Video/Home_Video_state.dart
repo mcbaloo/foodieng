@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:foodieng/models/videos.dart';
 
 abstract class HomeVideoState extends Equatable {
@@ -18,6 +19,16 @@ class UnHomeVideoState extends HomeVideoState {
   String toString() => 'UnHomeVideoState';
 }
 
+class VideoPlaying extends HomeVideoState {
+  @override
+  String toString() => 'VideoPlaying';
+}
+
+class VideoPaused extends HomeVideoState {
+  @override
+  String toString() => 'VideoPaused';
+}
+
 /// Initialized
 class HomeVideoUninitialized extends HomeVideoState {
   @override
@@ -26,7 +37,8 @@ class HomeVideoUninitialized extends HomeVideoState {
 
 class HomeVideoLoaded extends HomeVideoState {
   final VideoModel videoModel;
-  HomeVideoLoaded({@required this.videoModel});
+  final String type;
+  HomeVideoLoaded({@required this.videoModel, @required this.type});
 }
 
 class ErrorHomeVideo extends HomeVideoState {

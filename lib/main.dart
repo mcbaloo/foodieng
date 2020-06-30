@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/auth/auth_bloc/index.dart';
@@ -28,7 +29,12 @@ class MyApp extends StatelessWidget {
         title: 'Foodieng',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primaryColor: Color(0xff606060), accentColor: Colors.white),
+            cursorColor: Color(0xff606060),
+            cupertinoOverrideTheme: CupertinoThemeData(
+              primaryColor: Colors.white,
+            ),
+            primaryColor: Color(0xff606060),
+            accentColor: Colors.white),
         home:
             BlocBuilder<AuthBlocBloc, AuthBlocState>(builder: (context, state) {
           // Timer(Duration(seconds: 0), () {
@@ -36,7 +42,7 @@ class MyApp extends StatelessWidget {
             return SplashScreen();
           }
           if (state is AuthAuthenticated) {
-            return SplashScreen();
+            return Home();
           }
           if (state is AuthUnAuthenticated) {
             return SplashScreen();

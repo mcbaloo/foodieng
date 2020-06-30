@@ -18,7 +18,20 @@ class HomeVideoBloc extends Bloc<HomeVideoEvent, HomeVideoState> {
         yield HomeVideoUninitialized();
         Future.delayed(Duration(seconds: 2));
         final videos = await videoUtils.getAllVideos();
-        yield HomeVideoLoaded(videoModel: videos);
+        yield HomeVideoLoaded(videoModel: videos, type: "All Contents");
+      }
+      if (event is Play) {
+        print(event);
+        yield VideoPlaying();
+      }
+      if (event is Pause) {
+        yield VideoPaused();
+      }
+      if (event is FetchReceipe) {
+        yield HomeVideoUninitialized();
+        Future.delayed(Duration(seconds: 2));
+        final videos = await videoUtils.getReceipeContent(type: event.type);
+        yield HomeVideoLoaded(videoModel: videos, type: event.type);
       }
       //yield* event.applyAsync(currentState: state, bloc: this);
     } catch (_) {

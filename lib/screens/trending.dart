@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/Trending_Video/index.dart';
 import 'package:foodieng/utils/vidoesutil.dart';
-import 'package:foodieng/widgets/homevideo.dart';
-import 'package:video_player/video_player.dart';
+import 'package:foodieng/widgets/video_player.dart';
 import 'package:foodieng/widgets/error.dart';
 
 class Trending extends StatefulWidget {
@@ -16,9 +15,7 @@ class Trending extends StatefulWidget {
 class _TrendingState extends State<Trending> {
   VideoUtils videoUtil = VideoUtils();
   final TrendingVideoBloc _trendingBloc = TrendingVideoBloc();
-  VideoPlayerController _controller;
   void initState() {
-    // _trendingBloc.add(Fetch(type: "video"));
     sortContent(type: "Video");
     super.initState();
   }
@@ -26,7 +23,6 @@ class _TrendingState extends State<Trending> {
   @override
   void dispose() {
     super.dispose();
-    //_controller.dispose();
   }
 
   void sortContent({@required String type}) {
@@ -83,10 +79,10 @@ class _TrendingState extends State<Trending> {
                         child: ListView.builder(
                           itemCount: state.videoModel.videoList.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return (videoItemUi(
-                                state.videoModel.videoList[index],
-                                context,
-                                _controller));
+                            return VideoPlayerWidget(
+                              url: state.videoModel.videoList[index].videoUrl,
+                              model: state.videoModel.videoList[index],
+                            );
                           },
                         ),
                       ),

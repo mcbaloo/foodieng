@@ -14,23 +14,23 @@ class Signin extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.account_circle, size: 40),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text("Sign in",
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 18)),
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: <Widget>[
+            //       Icon(Icons.account_circle, size: 40),
+            //       Padding(
+            //         padding: const EdgeInsets.only(left: 8),
+            //         child: Text("Sign in",
+            //             style: TextStyle(
+            //                 color: Theme.of(context).primaryColor,
+            //                 fontSize: 18)),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(
-              height: MediaQuery.of(context).size.height / 10,
+              height: MediaQuery.of(context).size.height / 4,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,

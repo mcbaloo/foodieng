@@ -24,17 +24,18 @@ class Account extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                            onPressed: () => {Navigator.pop(context)},
-                            icon: Icon(
-                              FontAwesomeIcons.times,
-                              color: Colors.black54,
-                            ),
-                          )),
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(
+                            FontAwesomeIcons.times,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
@@ -45,41 +46,40 @@ class Account extends StatelessWidget {
                     ],
                   ),
                   divider(),
-                  Row(
-                    children: <Widget>[
-                      Padding(
+                  GestureDetector(
+                    onTap: () =>
+                        Navigator.push(context, FadeRoute(page: LoginPage())),
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.account_circle,
+                              size: 30,
+                            )),
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.account_circle,
-                                size: 30,
-                              ),
-                              onPressed: () => {
-                                    Navigator.push(
-                                        context, FadeRoute(page: LoginPage()))
-                                  })),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )
-                    ],
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Icon(
                           FontAwesomeIcons.solidAddressBook,
                           size: 30,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           "Your Channel",
                           style: TextStyle(fontSize: 20),
@@ -90,14 +90,14 @@ class Account extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Icon(
                           Icons.subscriptions,
                           size: 30,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           "Subscriptions",
                           style: TextStyle(fontSize: 20),
@@ -109,14 +109,14 @@ class Account extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Icon(
                           Icons.settings,
                           size: 30,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           "Settings",
                           style: TextStyle(fontSize: 20),
@@ -128,14 +128,14 @@ class Account extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Icon(
                           Icons.feedback,
                           size: 30,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           "Feedback",
                           style: TextStyle(fontSize: 20),
@@ -147,14 +147,14 @@ class Account extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Icon(
                           Icons.help,
                           size: 30,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           "Help",
                           style: TextStyle(fontSize: 20),
@@ -166,14 +166,14 @@ class Account extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Icon(
                           FontAwesomeIcons.signOutAlt,
                           size: 30,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Text(
                           "Sign Out",
                           style: TextStyle(fontSize: 20),
@@ -184,17 +184,10 @@ class Account extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Text("Youd"),
-              ],
-            )
           ],
         ),
       ),
-      bottomNavigationBar: guestBottom(context),
+      //bottomNavigationBar: guestBottom(context),
     );
   }
 }

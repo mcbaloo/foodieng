@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:foodieng/blocs/login/login/index.dart';
-import 'package:foodieng/utils/fadein.dart';
 
 class Error extends StatelessWidget {
   Function action;
   Error({@required this.action});
   _onErrorButtonPressed() {
-    print("here");
     action();
     //provider.of<LoginBloc>(context).add(event)
   }

@@ -1,9 +1,4 @@
-import 'dart:async';
-import 'dart:developer' as developer;
-
 import 'package:equatable/equatable.dart';
-import 'package:foodieng/blocs/appbar/index.dart';
-import 'package:meta/meta.dart';
 
 abstract class AppbarEvent extends Equatable {
   @override

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/comment/index.dart';
-import 'package:foodieng/blocs/explore/index.dart';
 import 'package:foodieng/widgets/comment.dart';
 
-class ExplorePage extends StatefulWidget {
-  static const String routeName = '/explore';
+class CommentPage extends StatefulWidget {
+  static const String routeName = '/comment';
 
   @override
-  _ExplorePageState createState() => _ExplorePageState();
+  _CommentPageState createState() => _CommentPageState();
 }
 
-class _ExplorePageState extends State<ExplorePage> {
+class _CommentPageState extends State<CommentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

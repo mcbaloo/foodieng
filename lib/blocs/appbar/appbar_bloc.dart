@@ -17,16 +17,17 @@ class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
   ) async* {
     try {
       if (event is AppStarted) {
-        final bool hasToken = await repository.hasToken();
-        if (hasToken) {
-          yield ISLoggedIn();
-        } else {
-          yield IsGuest();
-        }
+        yield IsGuest();
       }
 
       if (event is AppLoading) {
-        yield ISLoggedIn();
+        final bool hasToken = await repository.hasToken();
+        if (hasToken) {
+          final user = await repository.getDetails();
+          yield ISLoggedIn(user: user);
+        } else {
+          yield IsGuest();
+        }
       }
       // yield* event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {

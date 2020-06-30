@@ -26,7 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ValidationMixin {
           yield LoginFailure("Invalid Credentials");
           yield LoginInitial();
         } else {
-          //authenticationBloc.add(LoggedIn(user));
+          await userRepository.persitUser(user);
           yield LoginSuccess();
         }
       } catch (error) {

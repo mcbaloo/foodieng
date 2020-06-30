@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodieng/blocs/explore/index.dart';
+import 'package:foodieng/blocs/library/index.dart';
 
-class ExploreScreen extends StatefulWidget {
-  const ExploreScreen({
+class LibraryScreen extends StatefulWidget {
+  const LibraryScreen({
     Key key,
-    @required ExploreBloc exploreBloc,
-  })  : _exploreBloc = exploreBloc,
+    @required LibraryBloc libraryBloc,
+  })  : _libraryBloc = libraryBloc,
         super(key: key);
 
-  final ExploreBloc _exploreBloc;
+  final LibraryBloc _libraryBloc;
 
   @override
-  ExploreScreenState createState() {
-    return ExploreScreenState();
+  LibraryScreenState createState() {
+    return LibraryScreenState();
   }
 }
 
-class ExploreScreenState extends State<ExploreScreen> {
-  ExploreScreenState();
+class LibraryScreenState extends State<LibraryScreen> {
+  LibraryScreenState();
 
   @override
   void initState() {
@@ -33,18 +33,18 @@ class ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExploreBloc, ExploreState>(
-        bloc: widget._exploreBloc,
+    return BlocBuilder<LibraryBloc, LibraryState>(
+        bloc: widget._libraryBloc,
         builder: (
           BuildContext context,
-          ExploreState currentState,
+          LibraryState currentState,
         ) {
-          if (currentState is UnExploreState) {
+          if (currentState is UnLibraryState) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (currentState is ErrorExploreState) {
+          if (currentState is ErrorLibraryState) {
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,12 +61,12 @@ class ExploreScreenState extends State<ExploreScreen> {
               ],
             ));
           }
-          if (currentState is InExploreState) {
+          if (currentState is InLibraryState) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  //Text(currentState.hello),
+                  Text(""),
                 ],
               ),
             );
@@ -78,6 +78,6 @@ class ExploreScreenState extends State<ExploreScreen> {
   }
 
   void _load() {
-    //widget._exploreBloc.add(LoadExploreEvent());
+    widget._libraryBloc.add(LoadLibraryEvent());
   }
 }

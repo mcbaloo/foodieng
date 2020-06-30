@@ -6,16 +6,22 @@ import 'package:foodieng/blocs/Home_Video/index.dart';
 import 'package:foodieng/blocs/Trending_Video/index.dart';
 import 'package:foodieng/blocs/appbar/index.dart';
 import 'package:foodieng/blocs/bottom_nav/index.dart';
+import 'package:foodieng/blocs/comment/comment_bloc.dart';
+import 'package:foodieng/blocs/comment/index.dart';
 import 'package:foodieng/blocs/explore/explore_bloc.dart';
+import 'package:foodieng/blocs/library/library_bloc.dart';
 import 'package:foodieng/blocs/login/login/index.dart';
 import 'package:foodieng/screens/account.dart';
 import 'package:foodieng/screens/explore.dart';
 import 'package:foodieng/screens/library.dart';
+import 'package:foodieng/screens/likes.dart';
+import 'package:foodieng/screens/login_home.dart';
 import 'package:foodieng/screens/trending.dart';
 import 'package:foodieng/utils/fadein.dart';
-import 'package:foodieng/widgets/comment.dart';
+import 'package:foodieng/widgets/home_item.dart';
 import 'package:foodieng/widgets/homevideo.dart';
 import 'package:foodieng/utils/login_util.dart';
+import 'package:foodieng/widgets/show_logo.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -24,12 +30,20 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   BottomNavBloc _bloc = BottomNavBloc();
   UserRepository repository = UserRepository();
+  bool isLogin;
+  bool showAnimation = true;
   @override
   void initState() {
     super.initState();
+    repository.hasToken().then((value) => this.isLogin = value);
+    Future.delayed(Duration(seconds: 5)).then((_) {
+      setState(() {
+        showAnimation = false;
+      });
+    });
   }
 
   @override
@@ -37,212 +51,265 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  List<Widget> _children = [
-    //new LoginHome(),
-    new HomeVideo(),
-    //new Comment(),
-    new Explore(),
-    new Trending(),
-    new Library(),
-    new Library(),
-    new Library(),
-  ];
   @override
   Widget build(BuildContext context) {
+    List<Widget> _childrenGuest = [
+      new HomeVideo(),
+      new Trending(),
+      new Library(),
+    ];
+    List<Widget> _childrenIsNotGuest = [
+      new LoginHome(),
+      new Explore(),
+      new Trending(),
+      new Likes(),
+      new Library(),
+    ];
     SystemChrome.setEnabledSystemUIOverlays([]);
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider<AppbarBloc>(
-            create: (BuildContext context) => AppbarBloc(),
-          ),
-          BlocProvider<LoginBloc>(
-            create: (BuildContext context) => LoginBloc(),
-          ),
-          BlocProvider<LoginBloc>(
-            create: (BuildContext context) => LoginBloc(),
-          ),
-          BlocProvider<HomeVideoBloc>(
-            create: (BuildContext context) => HomeVideoBloc(),
-          ),
-          BlocProvider<TrendingVideoBloc>(
-            create: (BuildContext context) => TrendingVideoBloc(),
-          ),
-          BlocProvider<ExploreBloc>(
-            create: (BuildContext context) => ExploreBloc(),
-          ),
-        ],
-        child: MultiBlocListener(
-            listeners: [
-              BlocListener<AppbarBloc, AppbarState>(
-                listener: (context, state) {},
-              ),
-              // BlocListener<BlocB, BlocBState>(
-              //   listener: (context, state) {},
-              // ),
-              // BlocListener<BlocC, BlocCState>(
-              //   listener: (context, state) {},
-              // ),
-            ],
-            child:
-                BlocBuilder<AppbarBloc, AppbarState>(builder: (context, state) {
-              if (state is IsGuest) {
-                BlocProvider.of<AppbarBloc>(context).add(AppLoading());
-              }
-              //print(state);
-              return Scaffold(
-                  resizeToAvoidBottomPadding: false,
-                  backgroundColor: Theme.of(context).accentColor,
-                  appBar: AppBar(
-                    backgroundColor: Colors.white,
-                    centerTitle: false,
-                    iconTheme: new IconThemeData(
-                        color: Theme.of(context).primaryColor),
-                    title: SizedBox(
-                      width: MediaQuery.of(context).size.width / 2.8,
-                      child: Image(
-                        image: AssetImage("assets/images/foodieng_logo.png"),
-                      ),
-                    ),
-                    actions: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          Icons.search,
-                          size: 30.0,
-                        ),
-                        onPressed: () =>
-                            {showSearch(context: context, delegate: null)},
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                          child: (state is ISLoggedIn)
-                              ? IconButton(
-                                  onPressed: () => Navigator.push(
-                                      context, FadeRoute(page: Account())),
-                                  icon: Icon(
-                                    Icons.account_circle,
-                                    size: 30.0,
-                                  ),
-                                )
-                              : Text(
-                                  state.toString(),
-                                  style: TextStyle(color: Colors.red),
-                                ))
-                    ],
-                    elevation: 2,
+    return (isLogin == null)
+        ? FoodieAnimatedLogo()
+        : MultiBlocProvider(
+            providers: [
+                BlocProvider<AppbarBloc>(
+                  create: (BuildContext context) => AppbarBloc(),
+                ),
+                BlocProvider<LoginBloc>(
+                  create: (BuildContext context) => LoginBloc(),
+                ),
+                BlocProvider<LoginBloc>(
+                  create: (BuildContext context) => LoginBloc(),
+                ),
+                BlocProvider<HomeVideoBloc>(
+                  create: (BuildContext context) => HomeVideoBloc(),
+                ),
+                BlocProvider<TrendingVideoBloc>(
+                  create: (BuildContext context) => TrendingVideoBloc(),
+                ),
+                BlocProvider<ExploreBloc>(
+                  create: (BuildContext context) => ExploreBloc(),
+                ),
+                BlocProvider<LibraryBloc>(
+                  create: (BuildContext context) => LibraryBloc(),
+                ),
+                BlocProvider<CommentBloc>(
+                  create: (BuildContext context) => CommentBloc(),
+                )
+              ],
+            child: MultiBlocListener(
+                listeners: [
+                  BlocListener<AppbarBloc, AppbarState>(
+                    listener: (context, state) {},
                   ),
-                  //designBar(context),
-                  body: BlocBuilder<BottomNavBloc, BottomNavState>(
-                      bloc: _bloc,
-                      builder: (context, state) {
-                        return _children.elementAt(_bloc.currentIndex);
-                      }),
-                  bottomNavigationBar: BlocBuilder<BottomNavBloc,
-                          BottomNavState>(
-                      bloc: _bloc,
-                      builder: (context, state) {
-                        return BottomNavigationBar(
-                          type: BottomNavigationBarType.fixed,
-                          onTap: (index) => _bloc.add(ItemTap(index: index)),
-                          // onTappedBar,
-                          currentIndex: _bloc.currentIndex,
-                          //fixedColor: Theme.of(context).primaryColor,
-                          items: [
-                            BottomNavigationBarItem(
-                              backgroundColor: Colors.white,
-                              icon: Icon(Icons.home,
-                                  size: 25.0,
-                                  color: _bloc.currentIndex == 0
-                                      ? Color(0xff462618)
-                                      : Color(0xFFB4C1C4)),
-                              title: Text("Home",
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor)),
+                  BlocListener<CommentBloc, CommentState>(
+                    listener: (context, state) {},
+                  ),
+                  BlocListener<HomeVideoBloc, HomeVideoState>(
+                    listener: (context, state) {},
+                  ),
+                ],
+                child: BlocBuilder<AppbarBloc, AppbarState>(
+                    builder: (context, state) {
+                  if (state is IsGuest) {
+                    BlocProvider.of<AppbarBloc>(context).add(AppLoading());
+                  }
+                  return Scaffold(
+                      resizeToAvoidBottomPadding: false,
+                      backgroundColor: Theme.of(context).accentColor,
+                      appBar: AppBar(
+                        backgroundColor: Colors.white,
+                        centerTitle: false,
+                        iconTheme: new IconThemeData(
+                            color: Theme.of(context).primaryColor),
+                        title: SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.8,
+                          child: Image(
+                            image:
+                                AssetImage("assets/images/foodieng_logo.png"),
+                          ),
+                        ),
+                        actions: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.search,
+                              size: 30.0,
                             ),
-                            BottomNavigationBarItem(
-                              backgroundColor: Colors.white,
-                              icon: Icon(
-                                FontAwesomeIcons.compass,
-                                size: 25.0,
-                                color: _bloc.currentIndex == 1
-                                    ? Color(0xff462618)
-                                    : Color(0xFFB4C1C4),
-                              ),
-                              title: Text("Explore",
-                                  style: TextStyle(color: Color(0xFFB4C1C4))),
-                            ),
-                            BottomNavigationBarItem(
-                                backgroundColor: Colors.white,
-                                icon: Icon(
-                                  Icons.add_circle,
-                                  size: 40.0,
-                                  color: _bloc.currentIndex == 2
-                                      ? Color(0xff462618)
-                                      : Color(0xFFB4C1C4),
-                                ),
-                                title: Text('')),
-                            BottomNavigationBarItem(
-                              backgroundColor: Colors.white,
-                              icon: new Stack(children: <Widget>[
-                                new Icon(
-                                  Icons.favorite,
-                                  size: 25.0,
-                                  color: _bloc.currentIndex == 3
-                                      ? Color(0xff462618)
-                                      : Color(0xFFB4C1C4),
-                                ),
-                                new Positioned(
-                                  // top: -1.0,
-                                  // right: -1.0,
-                                  right: 0,
-                                  child: new Container(
-                                    padding: EdgeInsets.all(1),
-                                    decoration: new BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    constraints: BoxConstraints(
-                                      minWidth: 12,
-                                      minHeight: 12,
-                                    ),
-                                    child: new Text(
-                                      '100',
-                                      style: new TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 11,
+                            onPressed: () =>
+                                {showSearch(context: context, delegate: null)},
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                              child: (state is ISLoggedIn)
+                                  ? CircleAvatar(
+                                      radius: padwidget(22, context),
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      child: (state.user.profileImage != null)
+                                          ? Image(
+                                              image: NetworkImage(
+                                                  state.user.profileImage))
+                                          : Text(state.user.firstName[0]),
+                                    )
+                                  : IconButton(
+                                      onPressed: () => Navigator.push(
+                                          context, FadeRoute(page: Account())),
+                                      icon: Icon(
+                                        Icons.account_circle,
+                                        size: 30.0,
                                       ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                )
-                              ]),
-                              title: Text("Likes",
-                                  style: TextStyle(color: Color(0xFFB4C1C4))),
-                            ),
-                            BottomNavigationBarItem(
-                              backgroundColor: Colors.white,
-                              icon: Icon(FontAwesomeIcons.fire,
-                                  size: 25.0,
-                                  color: _bloc.currentIndex == 4
-                                      ? Color(0xff462618)
-                                      : Color(0xFFB4C1C4)),
-                              title: Text("Trending",
-                                  style: TextStyle(color: Color(0xFFB4C1C4))),
-                            ),
-                            BottomNavigationBarItem(
-                              backgroundColor: Colors.white,
-                              icon: Icon(Icons.subscriptions,
-                                  size: 25.0,
-                                  color: _bloc.currentIndex == 5
-                                      ? Color(0xff462618)
-                                      : Color(0xFFB4C1C4)),
-                              title: Text("Library",
-                                  style: TextStyle(color: Color(0xFFB4C1C4))),
-                            )
-                          ],
-                        );
-                      }));
-            })
-            //ChildA(),
-            ));
+                                    ))
+                        ],
+                        elevation: 2,
+                      ),
+                      //designBar(context),
+                      body: BlocBuilder<BottomNavBloc, BottomNavState>(
+                          bloc: _bloc,
+                          builder: (context, state) {
+                            return (isLogin == false)
+                                ? _childrenGuest.elementAt(_bloc.currentIndex)
+                                : _childrenIsNotGuest
+                                    .elementAt(_bloc.currentIndex);
+                          }),
+                      bottomNavigationBar:
+                          BlocBuilder<BottomNavBloc, BottomNavState>(
+                              bloc: _bloc,
+                              builder: (context, state) {
+                                return BottomNavigationBar(
+                                  type: BottomNavigationBarType.fixed,
+                                  onTap: (index) =>
+                                      _bloc.add(ItemTap(index: index)),
+                                  currentIndex: _bloc.currentIndex,
+                                  items: (this.isLogin == false)
+                                      ? [
+                                          BottomNavigationBarItem(
+                                            backgroundColor: Colors.white,
+                                            icon: Icon(Icons.home,
+                                                size: 25.0,
+                                                color: _bloc.currentIndex == 0
+                                                    ? Color(0xff462618)
+                                                    : Color(0xFFB4C1C4)),
+                                            title: Text("Home",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor)),
+                                          ),
+                                          BottomNavigationBarItem(
+                                            backgroundColor: Colors.white,
+                                            icon: Icon(FontAwesomeIcons.fire,
+                                                size: 25.0,
+                                                color: _bloc.currentIndex == 1
+                                                    ? Color(0xff462618)
+                                                    : Color(0xFFB4C1C4)),
+                                            title: Text("Trending",
+                                                style: TextStyle(
+                                                    color: Color(0xFFB4C1C4))),
+                                          ),
+                                          BottomNavigationBarItem(
+                                            backgroundColor: Colors.white,
+                                            icon: Icon(Icons.subscriptions,
+                                                size: 25.0,
+                                                color: _bloc.currentIndex == 2
+                                                    ? Color(0xff462618)
+                                                    : Color(0xFFB4C1C4)),
+                                            title: Text("Library",
+                                                style: TextStyle(
+                                                    color: Color(0xFFB4C1C4))),
+                                          )
+                                        ]
+                                      : [
+                                          BottomNavigationBarItem(
+                                            backgroundColor: Colors.white,
+                                            icon: Icon(Icons.home,
+                                                size: 25.0,
+                                                color: _bloc.currentIndex == 0
+                                                    ? Color(0xff462618)
+                                                    : Color(0xFFB4C1C4)),
+                                            title: Text("Home",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor)),
+                                          ),
+                                          BottomNavigationBarItem(
+                                            backgroundColor: Colors.white,
+                                            icon: Icon(
+                                              FontAwesomeIcons.compass,
+                                              size: 25.0,
+                                              color: _bloc.currentIndex == 1
+                                                  ? Color(0xff462618)
+                                                  : Color(0xFFB4C1C4),
+                                            ),
+                                            title: Text("Explore",
+                                                style: TextStyle(
+                                                    color: Color(0xFFB4C1C4))),
+                                          ),
+                                          BottomNavigationBarItem(
+                                              backgroundColor: Colors.white,
+                                              icon: Icon(
+                                                Icons.add_circle,
+                                                size: 40.0,
+                                                color: _bloc.currentIndex == 2
+                                                    ? Color(0xff462618)
+                                                    : Color(0xFFB4C1C4),
+                                              ),
+                                              title: Text('')),
+                                          BottomNavigationBarItem(
+                                            backgroundColor: Colors.white,
+                                            icon: new Stack(children: <Widget>[
+                                              new Icon(
+                                                Icons.favorite,
+                                                size: 25.0,
+                                                color: _bloc.currentIndex == 3
+                                                    ? Color(0xff462618)
+                                                    : Color(0xFFB4C1C4),
+                                              ),
+                                              new Positioned(
+                                                // top: -1.0,
+                                                // right: -1.0,
+                                                right: 0,
+                                                child: new Container(
+                                                  padding: EdgeInsets.all(1),
+                                                  decoration: new BoxDecoration(
+                                                    color: Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
+                                                  ),
+                                                  constraints: BoxConstraints(
+                                                    minWidth: 12,
+                                                    minHeight: 12,
+                                                  ),
+                                                  child: new Text(
+                                                    '100',
+                                                    style: new TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 11,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              )
+                                            ]),
+                                            title: Text("Likes",
+                                                style: TextStyle(
+                                                    color: Color(0xFFB4C1C4))),
+                                          ),
+                                          BottomNavigationBarItem(
+                                            backgroundColor: Colors.white,
+                                            icon: Icon(Icons.subscriptions,
+                                                size: 25.0,
+                                                color: _bloc.currentIndex == 4
+                                                    ? Color(0xff462618)
+                                                    : Color(0xFFB4C1C4)),
+                                            title: Text("Library",
+                                                style: TextStyle(
+                                                    color: Color(0xFFB4C1C4))),
+                                          )
+                                        ],
+                                );
+                              }));
+                })
+                //ChildA(),
+                ));
   }
+
+  bool get showLogo => isLogin == null || showAnimation;
 }
