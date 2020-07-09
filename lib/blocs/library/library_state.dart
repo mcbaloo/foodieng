@@ -1,4 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:foodieng/blocs/library/index.dart';
+import 'package:foodieng/models/user_response.dart';
+import 'package:foodieng/models/videos.dart';
 
 abstract class LibraryState extends Equatable {
   final List propss;
@@ -18,6 +22,9 @@ class UnLibraryState extends LibraryState {
 
 /// Initialized
 class InLibraryState extends LibraryState {
+  final VideoModel video;
+  final UserResponse user;
+  InLibraryState({@required this.video, @required this.user});
   @override
   String toString() => 'InLibraryState';
 }
@@ -34,4 +41,22 @@ class ErrorLibraryState extends LibraryState {
 
   @override
   String toString() => 'ErrorLibraryState';
+}
+
+class Relogin extends LibraryState {}
+
+class ShowDialog extends LibraryState {}
+
+class LibraryLoading extends LibraryState {}
+
+class LibraryError extends LibraryState {
+  final String errorMessage;
+  LibraryError({@required this.errorMessage});
+  @override
+  String toString() => 'LibraryError';
+}
+
+class UserContent extends LibraryState {
+  final VideoModel videos;
+  UserContent({@required this.videos});
 }

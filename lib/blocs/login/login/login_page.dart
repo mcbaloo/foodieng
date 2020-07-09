@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocProvider(
         create: (context) {
           return LoginBloc(
-            userRepository: userRepository,
+            //userRepository: userRepository,
             authenticationBloc: BlocProvider.of<AuthBlocBloc>(context),
           );
         },

@@ -30,13 +30,20 @@ dependencies:
   http: any
   font_awesome_flutter: ^8.2.0
   video_player:
-  chewie: ^0.9.10
+  file_picker: ^1.11.0
   flutter_bloc:
   equatable: any
   flutter_svg: any
+  flutter_launcher_icons: ^0.7.5
+  dio: ^3.0.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/foodieng_logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

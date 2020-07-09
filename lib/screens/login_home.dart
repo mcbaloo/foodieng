@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/blocs/Home_Video/index.dart';
 import 'package:foodieng/widgets/video_player.dart';
 import 'package:foodieng/widgets/error.dart';
@@ -652,24 +651,27 @@ class _LoginHomeState extends State<LoginHome> {
                 ),
               ),
             if (state is HomeVideoLoaded)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Showing",
-                    style: TextStyle(fontFamily: "Gill Bold", fontSize: 18),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        state.type,
-                        style: TextStyle(fontSize: 18),
-                      ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Showing",
+                      style: TextStyle(fontFamily: "Gill Bold", fontSize: 18),
                     ),
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          state.type,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             if (state is HomeVideoLoaded)
               if (state.videoModel.videoList.isEmpty)

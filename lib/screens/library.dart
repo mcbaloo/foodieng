@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/blocs/library/index.dart';
 import 'package:foodieng/blocs/library/library_bloc.dart';
+import 'package:foodieng/screens/myvideos.dart';
+import 'package:foodieng/utils/fadein.dart';
+import 'package:foodieng/widgets/recent_player.dart';
 import 'package:foodieng/widgets/signin_needed.dart';
+import 'package:foodieng/widgets/upload_video.dart';
 
 class Library extends StatefulWidget {
   const Library({Key key}) : super(key: key);
@@ -25,6 +29,24 @@ class _LibraryState extends State<Library> {
     //_libraryBloc.dispose();
   }
 
+  void _onUploadTap(String userId) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return UploadVideo(
+              userId: userId,
+            );
+          });
+        });
+    //.whenComplete(() => reloadPage());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +60,7 @@ class _LibraryState extends State<Library> {
                 return Signin();
               }
               if (state is InLibraryState) {
+                //if (state is LibraryGuest) {
                 return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,318 +75,59 @@ class _LibraryState extends State<Library> {
                               color: Theme.of(context).primaryColor),
                         ),
                       ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 4,
-                        //width: MediaQuery.of(context).size.height / 5,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16.0, 16.0, 0, 8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16)),
-                                width: MediaQuery.of(context).size.height / 4.5,
-                                child: Column(
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            "assets/images/default.png",
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                7,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                4.5,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Positioned(
-                                              bottom: 10,
-                                              right: 8,
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        8.0, 4.0, 8.0, 4.0),
-                                                    child: Text(
-                                                      "3:14",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  )))
-                                        ],
+                      if (state.video.videoList.isNotEmpty)
+                        Container(
+                          height: MediaQuery.of(context).size.height / 4,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16.0, 16.0, 0, 8),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16)),
+                                  width:
+                                      MediaQuery.of(context).size.height / 4.5,
+                                  child: Column(
+                                    children: <Widget>[
+                                      RecentPlayer(
+                                        url: state
+                                            .video.videoList[index].videoUrl,
+                                        model: state.video.videoList[index],
                                       ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Expanded(
-                                            child: Text(
-                                                "How to prepare a Soul Cake")),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4.0),
-                                      child: Row(
+                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           Expanded(
-                                              child: Text("Michael Bruno")),
+                                              child: Text(state.video
+                                                  .videoList[index].title)),
                                         ],
                                       ),
-                                    )
-                                  ],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 4.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Expanded(
+                                                child: Text(state
+                                                    .video
+                                                    .videoList[index]
+                                                    .uploader)),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16.0, 16.0, 0, 8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16)),
-                                width: MediaQuery.of(context).size.height / 4.5,
-                                child: Column(
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            "assets/images/default.png",
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                7,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                4.5,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Positioned(
-                                              bottom: 10,
-                                              right: 8,
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        8.0, 4.0, 8.0, 4.0),
-                                                    child: Text(
-                                                      "3:14",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  )))
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Expanded(
-                                            child: Text(
-                                                "How to prepare a Soul Cake")),
-                                        // IconButton(
-                                        //   onPressed: null,
-                                        //   color: Colors.white,
-                                        //   icon: Icon(Icons.more_vert),
-                                        // )
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: Text("Michael Bruno")),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16.0, 16.0, 0, 8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16)),
-                                width: MediaQuery.of(context).size.height / 4.5,
-                                child: Column(
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            "assets/images/default.png",
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                7,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                4.5,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Positioned(
-                                              bottom: 10,
-                                              right: 8,
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        8.0, 4.0, 8.0, 4.0),
-                                                    child: Text(
-                                                      "3:14",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  )))
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Expanded(
-                                            child: Text(
-                                                "How to prepare a Soul Cake")),
-                                        // IconButton(
-                                        //   onPressed: null,
-                                        //   color: Colors.white,
-                                        //   icon: Icon(Icons.more_vert),
-                                        // )
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: Text("Michael Bruno")),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16.0, 16.0, 0, 8),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16)),
-                                width: MediaQuery.of(context).size.height / 4.5,
-                                child: Column(
-                                  children: <Widget>[
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            "assets/images/default.png",
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                7,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                4.5,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          Positioned(
-                                              bottom: 10,
-                                              right: 8,
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        8.0, 4.0, 8.0, 4.0),
-                                                    child: Text(
-                                                      "3:14",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  )))
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Expanded(
-                                            child: Text(
-                                                "How to prepare a Soul Cake")),
-                                        // IconButton(
-                                        //   onPressed: null,
-                                        //   color: Colors.white,
-                                        //   icon: Icon(Icons.more_vert),
-                                        // )
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: Text("Michael Bruno")),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                              );
+                            },
+                            itemCount: state.video.videoList.length,
+                          ),
                         ),
-                      ),
                       Divider(
                         color: Color(0xffEEEEEE),
                         thickness: 1.5,
@@ -409,11 +173,34 @@ class _LibraryState extends State<Library> {
                         child: Row(
                           children: <Widget>[
                             Icon(Icons.video_label),
-                            Padding(
-                              padding: EdgeInsets.only(left: 16.0),
-                              child: Text("Your Videos"),
+                            GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  FadeRoute(
+                                      page: MyVideo(
+                                    userId: state.user.userId,
+                                  ))),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 16.0),
+                                child: Text("Your Videos"),
+                              ),
                             ),
                           ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(16.0, 16, 8, 16),
+                        child: GestureDetector(
+                          onTap: () => _onUploadTap(state.user.userId),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(FontAwesomeIcons.upload),
+                              Padding(
+                                padding: EdgeInsets.only(left: 16.0),
+                                child: Text("Share Video"),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Divider(
@@ -477,7 +264,7 @@ class _LibraryState extends State<Library> {
                                         child: Image.asset(
                                             "assets/images/food2.jpeg")),
                                     Padding(
-                                      padding: const EdgeInsets.all(10.0),
+                                      padding: const EdgeInsets.all(2.0),
                                       child: Column(
                                         children: <Widget>[
                                           Text("Spaghetti Bolognaise",
@@ -486,7 +273,7 @@ class _LibraryState extends State<Library> {
                                                       .primaryColor,
                                                   fontFamily: "Gill Bold")),
                                           SizedBox(
-                                            height: 3,
+                                            height: 1,
                                           ),
                                           Text(
                                             "Eric Thompson 12 videos",

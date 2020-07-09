@@ -39,6 +39,8 @@ class LoadCommentEvent extends ExploreEvent {
 class GetExploreSearch extends ExploreEvent {
   final String type;
   GetExploreSearch({@required this.type});
+  @override
+  String toString() => 'GetExploreSearch $type';
 }
 
 class BottomSheetClosed extends ExploreEvent {}

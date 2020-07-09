@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:foodieng/models/upload.dart';
 import 'package:http/http.dart' as http;
 import 'package:foodieng/models/videos.dart';
 import 'package:foodieng/data/database_helper.dart';
@@ -31,6 +33,38 @@ class VideoUtils {
   }
 
   Future<void> persistRecent(VideoModel video) async {
-    await DatabaseHelper.internal().checkUser(1);
+    await DatabaseHelper.internal().saveRecent(video);
+  }
+
+  Future<VideoModel> getRecentVideos() async {
+    var recent = await DatabaseHelper.internal().getRecentVideos();
+    return VideoModel.fromParsedDatabaseJson(recent);
+  }
+
+  Future<VideoModel> getUserVideos(String userId) async {
+    String url = "${baseUrl}Content/GetContentByUser/$userId";
+    final response = await http.get(url);
+    return VideoModel.fromParsedDatabaseJson(json.decode(response.body));
+  }
+
+  Future<Upload> uploadVideo(Upload content) async {
+    Dio dio = Dio();
+    String url = "${baseUrl}Content/CreateContent";
+    FormData data = FormData.fromMap({
+      "file": await MultipartFile.fromFile(content.file),
+      "title": content.title,
+      "description": content.description,
+      "UserId": content.userId,
+      "duration": content.duration,
+      "category": content.category
+    });
+    var result = await dio.post(url, data: data);
+    if (result.statusCode == 200) {
+      print(result.data);
+      return Upload.fromDatabaseJson(result.data);
+    } else {
+      Upload upload = Upload();
+      return upload;
+    }
   }
 }

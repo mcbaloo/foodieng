@@ -147,31 +147,6 @@ class _TrendingState extends State<Trending> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () => sortContent(type: "Article"),
-            //print("Articles"),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: (state.tapIndex == 3)
-                        ? Color(0xff462618)
-                        : Color(0xFFB4C1C4),
-                    child: Center(
-                      child: Icon(
-                        Icons.book,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                  Text("Articles")
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );

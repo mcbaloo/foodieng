@@ -179,7 +179,7 @@ class _ExploreState extends State<Explore> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  "View all 57 comments",
+                                  "View all comments",
                                   style: TextStyle(
                                       fontFamily: "Gill",
                                       fontWeight: FontWeight.w100),
@@ -187,32 +187,32 @@ class _ExploreState extends State<Explore> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 16.0, top: 2.0),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: RichText(
-                                    //softWrap: false,
-                                    text: TextSpan(
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: "Anita Baker",
-                                              style: TextStyle(
-                                                  //fontWeight: FontWeight.bold,
-                                                  fontFamily: "Gill Bold")),
-                                          TextSpan(text: "This is nice.")
-                                        ]),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding:
+                          //       const EdgeInsets.only(left: 16.0, top: 2.0),
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       Expanded(
+                          //         child: RichText(
+
+                          //           text: TextSpan(
+                          //               style: TextStyle(
+                          //                   fontSize: 15,
+                          //                   color:
+                          //                       Theme.of(context).primaryColor),
+                          //               children: <TextSpan>[
+                          //                 TextSpan(
+                          //                     text: "Anita Baker",
+                          //                     style: TextStyle(
+
+                          //                         fontFamily: "Gill Bold")),
+                          //                 TextSpan(text: "This is nice.")
+                          //               ]),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Row(
                             children: <Widget>[
                               Padding(
@@ -302,7 +302,7 @@ class _ExploreState extends State<Explore> {
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
                             decoration: BoxDecoration(
-                                color: Colors.red,
+                                color: Colors.black,
                                 borderRadius: BorderRadius.circular(16)),
                             child: Row(
                               children: <Widget>[

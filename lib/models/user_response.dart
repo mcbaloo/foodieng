@@ -15,14 +15,6 @@ class UserResponse {
       this.firstName,
       this.lastName,
       this.userId});
-
-  // User.map(dynamic obj) {
-  //   this._username = obj['username'];
-  //   this._password = obj['password'];
-  // }
-  //String get username => _username;
-  //String get password => _password;
-
   factory UserResponse.fromJson(Map<String, dynamic> json) => (new UserResponse(
       username: json["username"] as String,
       email: json["email"] as String,
@@ -51,7 +43,19 @@ class UserResponse {
       userList.add(UserResponse.fromJson(v));
     });
   }
+}
 
-  // Map<String, dynamic> toDatabaseJson() =>
-  //     {"username": _username, "password": _password};
+class RegisterResponse {
+  var firstName;
+  var lastName;
+  var email;
+  var profileImage;
+  RegisterResponse(
+      {this.firstName, this.lastName, this.email, this.profileImage});
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
+      (new RegisterResponse(
+          firstName: json["firstname"] as String,
+          email: json["email"] as String,
+          profileImage: json["profileimage"] as String,
+          lastName: json["lastname"] as String));
 }

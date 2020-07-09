@@ -32,31 +32,46 @@ class DatabaseHelper {
     await db.execute(
         "Create Table User(id INTEGER PRIMARY KEY, username TEXT, password TEXT, profileimage TEXT, firstname TEXT, Lastname TEXT, email TEXT, userId TEXT)");
     await db.execute(
-        "Create Table RecentVideo(id INTEGER PRIMARY KEY, videoUrl TEXT, duration TEXT, firstname TEXT, title TEXT)");
+        "Create Table RecentVideo(id INTEGER PRIMARY KEY, content_url TEXT, duration TEXT, first_name TEXT, title TEXT, contentId TEXT)");
   }
 
 //insertion
   Future<int> saveUser(UserResponse user) async {
-    var oldUser = User(password: "pass", username: user.username);
-    await DeleteUser(oldUser);
+    //var oldUser = User(password: "pass", username: user.username);
+    await DeleteUser();
     var dbClient = await db;
     int res = await dbClient.insert("User", user.toMap());
     await checkUser(0);
     return res;
   }
+//check if id already exists
+
+  Future<bool> checkContent(String contentId) async {
+    var dbClient = await db;
+    var content = await dbClient
+        .query("RecentVideo", where: 'contentId = ?', whereArgs: [contentId]);
+    if (content.length > 0) {
+      return true;
+    }
+    return false;
+  }
 
   Future<int> saveRecent(VideoModel videoModel) async {
-    var currentVideos = await getRecentVideos(0);
-    if (currentVideos.length >= 5) {
-      await deleteVideo(4);
+    bool isExisting = await checkContent(videoModel.contentId);
+    if (!isExisting) {
+      var currentVideos = await getRecentVideos();
+      if (currentVideos.length >= 5) {
+        await deleteVideo(4);
+      }
+      var dbClient = await db;
+      int res = await dbClient.insert("RecentVideo", videoModel.toMap());
+      return res;
     }
-    var dbClient = await db;
-    int res = await dbClient.insert("RecentVideo", videoModel.toMap());
-    return res;
+    return 0;
   }
 
   //deletion
-  Future<int> DeleteUser(User user) async {
+  Future<int> DeleteUser() async {
     var dbClient = await db;
     int res = await dbClient.delete("User");
     return res;
@@ -79,9 +94,13 @@ class DatabaseHelper {
   }
 
   Future<UserResponse> getUser(int id) async {
+    var response = UserResponse();
     var dbClient = await db;
     var user = await dbClient.query("User", where: 'id = ?', whereArgs: [id]);
-    return UserResponse.fromJson(user[0]);
+    if (user.length > 0) {
+      return UserResponse.fromJson(user[0]);
+    }
+    return response;
   }
 
   Future<int> deleteVideo(id) async {
@@ -91,10 +110,9 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<List> getRecentVideos(int id) async {
+  Future<List> getRecentVideos() async {
     var dbClient = await db;
-    var videos =
-        await dbClient.query("RecentVideo", where: 'id=?', whereArgs: [id]);
+    var videos = await dbClient.query("RecentVideo");
     return videos;
   }
 }

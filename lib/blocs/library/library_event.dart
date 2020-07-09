@@ -2,34 +2,31 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:foodieng/blocs/library/index.dart';
+import 'package:foodieng/models/upload.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-abstract class LibraryEvent {
-  Stream<LibraryState> applyAsync(
-      {LibraryState currentState, LibraryBloc bloc});
+abstract class LibraryEvent {}
+
+class InitialLibraryEvent extends LibraryEvent {}
+
+class LoadLibraryEvent extends LibraryEvent {}
+
+class LoadRecent extends LibraryEvent {
+  @override
+  String toString() => 'LoadRecent';
 }
 
-class InitialLibraryEvent extends LibraryEvent {
+class LogOut extends LibraryEvent {}
+
+class CreateContent extends LibraryEvent {
+  final Upload content;
+  CreateContent({@required this.content});
   @override
-  Stream<LibraryState> applyAsync(
-      {LibraryState currentState, LibraryBloc bloc}) async* {
-    yield UnLibraryState();
-  }
+  String toString() => 'CreateContent';
 }
 
-class LoadLibraryEvent extends LibraryEvent {
-  @override
-  Stream<LibraryState> applyAsync(
-      {LibraryState currentState, LibraryBloc bloc}) async* {
-    try {
-      yield UnLibraryState();
-      await Future.delayed(Duration(seconds: 1));
-      yield InLibraryState();
-    } catch (_, stackTrace) {
-      developer.log('$_',
-          name: 'LoadLibraryEvent', error: _, stackTrace: stackTrace);
-      yield ErrorLibraryState(_?.toString());
-    }
-  }
+class LoadUserContent extends LibraryEvent {
+  final String userId;
+  LoadUserContent({@required this.userId});
 }

@@ -14,7 +14,6 @@ class Error extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
         color: Colors.white,
-        height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

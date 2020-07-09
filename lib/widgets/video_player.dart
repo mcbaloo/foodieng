@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/models/videos.dart';
+import 'package:foodieng/utils/vidoesutil.dart';
 import 'package:foodieng/widgets/home_item.dart';
 import 'package:video_player/video_player.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -17,6 +18,7 @@ class VideoPlayerWidget extends StatefulWidget {
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   VideoPlayerController _controller;
+  VideoUtils videoUtils = VideoUtils();
   //ChewieController _chewieController;
   @override
   void initState() {
@@ -25,6 +27,10 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       ..initialize().then((_) {
         setState(() {});
       });
+  }
+
+  void saveRecentVideo() {
+    videoUtils.persistRecent(widget.model);
   }
 
   List<IconData> _icons = [
@@ -69,7 +75,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16.0, 2.0, 8, 0),
-                          child: Text("Life Blogger",
+                          child: Text("Blogger",
                               style: TextStyle(color: Color(0xff989898))),
                         )
                       ],
@@ -114,12 +120,16 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: Center(
                   child: FloatingActionButton(
+                    heroTag: widget.model.contentId,
                     onPressed: () {
-                      setState(() {
-                        _controller.value.isPlaying
-                            ? _controller.pause()
-                            : _controller.play();
-                      });
+                      if (_controller.value.initialized) {
+                        saveRecentVideo();
+                        setState(() {
+                          _controller.value.isPlaying
+                              ? _controller.pause()
+                              : _controller.play();
+                        });
+                      }
                     },
                     child: Icon(
                       _controller.value.isPlaying
@@ -171,18 +181,18 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                rowActivities(_icons[0], "247", context),
-                rowActivities(_icons[1], "50", context),
-                rowActivities(_icons[2], "60", context),
-                rowActivities(_icons[3], "47", context),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: <Widget>[
+          //       rowActivities(_icons[0], "247", context),
+          //       rowActivities(_icons[1], "50", context),
+          //       rowActivities(_icons[2], "60", context),
+          //       rowActivities(_icons[3], "47", context),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodieng/blocs/login/login/index.dart';
 import 'package:foodieng/models/User.dart';
 import 'package:foodieng/screens/home.dart';
+import 'package:foodieng/screens/register.dart';
 import 'package:foodieng/utils/fadein.dart';
 
 class Login extends StatefulWidget {
@@ -61,7 +62,12 @@ class _LoginState extends State<Login> {
       }
       if (state is LoginSuccess) {
         Navigator.pushAndRemoveUntil(
-            context, FadeRoute(page: Home()), (route) => false);
+            context,
+            FadeRoute(
+                page: Home(
+              isLogin: true,
+            )),
+            (route) => false);
         //.pushReplacement(context, FadeRoute(page: Home()));
       }
     }, child: BlocBuilder<LoginBloc, LoginState>(
@@ -70,7 +76,7 @@ class _LoginState extends State<Login> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
-            elevation: 0,
+            elevation: 3,
             leading: IconButton(
               color: Theme.of(context).primaryColor,
               iconSize: MediaQuery.of(context).size.width / 12,
@@ -238,7 +244,8 @@ class _LoginState extends State<Login> {
                                   fontSize:
                                       MediaQuery.of(context).size.width / 30),
                             ),
-                            onPressed: () {},
+                            onPressed: () => Navigator.push(
+                                context, FadeRoute(page: Register())),
                           ),
                         ],
                       ),

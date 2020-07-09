@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
             return SplashScreen();
           }
           if (state is AuthAuthenticated) {
-            return Home();
+            return SplashScreen();
           }
           if (state is AuthUnAuthenticated) {
             return SplashScreen();
