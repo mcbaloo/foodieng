@@ -76,7 +76,7 @@ class _MyVideoState extends State<MyVideo> {
                     },
                   ),
                 if (state is UserContent)
-                  if (state.videos.videoList.isEmpty)
+                  if (state.videos.videoList == null)
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: Center(

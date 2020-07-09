@@ -139,8 +139,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                       context, FadeRoute(page: Account())),
                                   child: CircleAvatar(
                                     radius: padwidget(22, context),
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
+                                    backgroundColor: Colors.black,
                                     child: (state.user.profileImage != null)
                                         ? Image(
                                             image: NetworkImage(

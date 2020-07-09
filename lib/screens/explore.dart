@@ -85,7 +85,7 @@ class _ExploreState extends State<Explore> {
           });
         }
         if (state is InExploreState) {
-          if (state.video.videoList.isEmpty) {
+          if (state.video.videoList == null) {
             return Container(
               height: MediaQuery.of(context).size.height,
               child: Column(

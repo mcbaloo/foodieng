@@ -52,7 +52,7 @@ class _TrendingState extends State<Trending> {
               );
             }
             if (state is TrendingVideoLoaded) {
-              if (state.videoModel.videoList.isEmpty) {
+              if (state.videoModel.videoList == null) {
                 return Column(
                   children: <Widget>[
                     header(state),

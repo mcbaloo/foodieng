@@ -674,7 +674,7 @@ class _LoginHomeState extends State<LoginHome> {
                 ),
               ),
             if (state is HomeVideoLoaded)
-              if (state.videoModel.videoList.isEmpty)
+              if (state.videoModel.videoList == null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

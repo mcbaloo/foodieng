@@ -6,31 +6,47 @@ import 'package:foodieng/models/videos.dart';
 import 'package:foodieng/data/database_helper.dart';
 
 class VideoUtils {
+  VideoModel videoModel = VideoModel();
   final String baseUrl = "https://foodieng.herokuapp.com/api";
   //"http://192.168.56.1/foodie/api/";
   Future<VideoModel> getAllVideos() async {
     String url = "${baseUrl}Content/GetAllContents";
     final response = await http.get(url);
-    // print(response.body);
-    return VideoModel.fromParsedJson(json.decode(response.body));
+    if (response.body.isEmpty) {
+      return videoModel;
+    } else {
+      return VideoModel.fromParsedJson(json.decode(response.body));
+    }
   }
 
   Future<VideoModel> getTrendingContent({String type}) async {
     String url = "${baseUrl}Content/GetTrendingContents/$type";
     final response = await http.get(url);
-    return VideoModel.fromParsedJson(json.decode(response.body));
+    if (response.body.isEmpty) {
+      return videoModel;
+    } else {
+      return VideoModel.fromParsedJson(json.decode(response.body));
+    }
   }
 
   Future<VideoModel> getReceipeContent({String type}) async {
     String url = "${baseUrl}Content/GetContentsbyReceipe/$type";
     final response = await http.get(url);
-    return VideoModel.fromParsedJson(json.decode(response.body));
+    if (response.body.isEmpty) {
+      return videoModel;
+    } else {
+      return VideoModel.fromParsedJson(json.decode(response.body));
+    }
   }
 
   Future<VideoModel> getTrendingReceipeContent() async {
     String url = "${baseUrl}Content/GetAllRecipes";
     final response = await http.get(url);
-    return VideoModel.fromParsedJson(json.decode(response.body));
+    if (response.body.isEmpty) {
+      return videoModel;
+    } else {
+      return VideoModel.fromParsedJson(json.decode(response.body));
+    }
   }
 
   Future<void> persistRecent(VideoModel video) async {
@@ -45,7 +61,11 @@ class VideoUtils {
   Future<VideoModel> getUserVideos(String userId) async {
     String url = "${baseUrl}Content/GetContentByUser/$userId";
     final response = await http.get(url);
-    return VideoModel.fromParsedDatabaseJson(json.decode(response.body));
+    if (response.body.isEmpty) {
+      return videoModel;
+    } else {
+      return VideoModel.fromParsedDatabaseJson(json.decode(response.body));
+    }
   }
 
   Future<Upload> uploadVideo(Upload content) async {
