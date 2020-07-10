@@ -8,7 +8,7 @@ class LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Loading(
       indicator: BallPulseIndicator(),
-      size: MediaQuery.of(context).size.width / 8,
+      size: MediaQuery.of(context).size.width / 6.5,
       color: Theme.of(context).primaryColor,
     );
   }

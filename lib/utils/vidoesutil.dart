@@ -7,7 +7,7 @@ import 'package:foodieng/data/database_helper.dart';
 
 class VideoUtils {
   VideoModel videoModel = VideoModel();
-  final String baseUrl = "https://foodieng.herokuapp.com/api";
+  final String baseUrl = "https://foodieng.herokuapp.com/api/";
   //final String baseUrl = "http://192.168.56.1/foodie/api/";
   Future<VideoModel> getAllVideos() async {
     String url = "${baseUrl}Content/GetAllContents";

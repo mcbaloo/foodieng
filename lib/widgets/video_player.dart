@@ -181,18 +181,18 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
               ],
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     children: <Widget>[
-          //       rowActivities(_icons[0], "247", context),
-          //       rowActivities(_icons[1], "50", context),
-          //       rowActivities(_icons[2], "60", context),
-          //       rowActivities(_icons[3], "47", context),
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                rowActivities(_icons[0], "0", context),
+                rowActivities(_icons[1], "0", context),
+                rowActivities(_icons[2], "0", context),
+                rowActivities(_icons[3], "0", context),
+              ],
+            ),
+          ),
         ],
       ),
     );
