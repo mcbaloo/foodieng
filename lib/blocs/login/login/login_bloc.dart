@@ -107,10 +107,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> with ValidationMixin {
       try {
         yield LoginLoading();
         final response = await userRepository.registerUser(event.user);
-        if (response != null) {
+        if (response.lastName != null) {
           yield RegisterSuccess();
         } else {
-          yield LoginFailure("An Error Occured");
+          yield LoginFailure(response.firstName);
         }
       } catch (_) {
         print(_.toString());

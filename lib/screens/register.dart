@@ -161,6 +161,13 @@ class _RegisterState extends State<Register> with ValidationMixin {
                                     MediaQuery.of(context).size.width / 18),
                           ),
                           SizedBox(height: 20),
+                          if (state is LoginFailure)
+                            Center(
+                              child: Text(
+                                state.errorMessage,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height / 11,
                             child: Padding(

@@ -8,13 +8,17 @@ import 'package:foodieng/data/database_helper.dart';
 class VideoUtils {
   VideoModel videoModel = VideoModel();
   final String baseUrl = "https://foodieng.herokuapp.com/api";
-  //"http://192.168.56.1/foodie/api/";
+  //final String baseUrl = "http://192.168.56.1/foodie/api/";
   Future<VideoModel> getAllVideos() async {
     String url = "${baseUrl}Content/GetAllContents";
     final response = await http.get(url);
+    print(response.body);
     if (response.body.isEmpty) {
+      print("Omo ale2");
       return videoModel;
     } else {
+      print("Omo ale");
+      print(response.body);
       return VideoModel.fromParsedJson(json.decode(response.body));
     }
   }
@@ -70,6 +74,9 @@ class VideoUtils {
 
   Future<Upload> uploadVideo(Upload content) async {
     Dio dio = Dio();
+    dio.options.headers = {
+      'Content-type': 'multipart/form-data',
+    };
     String url = "${baseUrl}Content/CreateContent";
     FormData data = FormData.fromMap({
       "file": await MultipartFile.fromFile(content.file),

@@ -4,8 +4,8 @@ import 'package:foodieng/models/comment.dart';
 import 'package:http/http.dart' as http;
 
 class CommentUtil {
-  final String baseUrl = "https://foodieng.herokuapp.com/api";
-  //"http://192.168.56.1/foodie/api/";
+  //final String baseUrl = "https://foodieng.herokuapp.com/api";
+  final String baseUrl = "http://192.168.56.1/foodie/api/";
 
   Future<CommentModel> getAllComments(String commentId) async {
     String url = "${baseUrl}Comment/GetContentComments/$commentId";

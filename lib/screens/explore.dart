@@ -221,11 +221,7 @@ class _ExploreState extends State<Explore> {
                                     radius: padwidget(22, context),
                                     backgroundColor:
                                         Theme.of(context).primaryColor,
-                                    child: (state.user.profileImage != null)
-                                        ? Image(
-                                            image: NetworkImage(
-                                                state.user.profileImage))
-                                        : Text(state.user.firstName[0]),
+                                    child: Text(state.user.firstName[0]),
                                   )),
                               Flexible(
                                 child: Padding(

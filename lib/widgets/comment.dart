@@ -145,12 +145,7 @@ class _CommentState extends State<Comment> {
                                         radius: padwidget(22, context),
                                         backgroundColor:
                                             Theme.of(context).primaryColor,
-                                        child: (widget.user.profileImage !=
-                                                null)
-                                            ? Image(
-                                                image: NetworkImage(
-                                                    widget.user.profileImage))
-                                            : Text(widget.user.firstName[0]),
+                                        child: Text(widget.user.firstName[0]),
                                       ),
                                       Flexible(
                                         child: Padding(
@@ -163,7 +158,7 @@ class _CommentState extends State<Comment> {
                                               if (value.trim().isEmpty) {
                                                 return 'Text cannot be Empty';
                                               }
-                                              //sreturn "";
+                                              return null;
                                             },
                                             decoration: InputDecoration(
                                               suffixIcon:

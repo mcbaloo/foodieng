@@ -140,11 +140,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   child: CircleAvatar(
                                     radius: padwidget(22, context),
                                     backgroundColor: Colors.black,
-                                    child: (state.user.profileImage != null)
-                                        ? Image(
-                                            image: NetworkImage(
-                                                state.user.profileImage))
-                                        : Text(state.user.firstName[0]),
+                                    child: Text(state.user.firstName[0]),
                                   ),
                                 )
                               : GestureDetector(

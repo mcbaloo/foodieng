@@ -116,15 +116,8 @@ class Account extends StatelessWidget {
                                                 backgroundColor:
                                                     Theme.of(context)
                                                         .primaryColor,
-                                                child: (state.user
-                                                            .profileImage !=
-                                                        null)
-                                                    ? Image(
-                                                        image: NetworkImage(
-                                                            state.user
-                                                                .profileImage))
-                                                    : Text(state
-                                                        .user.firstName[0]),
+                                                child: Text(
+                                                    state.user.firstName[0]),
                                               ),
                                             ),
                                             Padding(

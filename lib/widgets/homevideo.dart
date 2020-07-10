@@ -70,7 +70,7 @@ class _HomeVideoState extends State<HomeVideo> {
             });
           }
           if (state is HomeVideoLoaded) {
-            if (state.videoModel.videoList.isEmpty) {
+            if (state.videoModel.videoList == null) {
               return Center(
                 child: Text(
                   'No Content at the moment',
