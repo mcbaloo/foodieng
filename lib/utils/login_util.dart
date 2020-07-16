@@ -6,8 +6,8 @@ import 'package:foodieng/models/user_response.dart';
 import 'package:http/http.dart' as http;
 
 class UserRepository {
-  final String baseUrl = "https://foodieng.herokuapp.com/api";
-  //"http://192.168.56.1/foodie/api";
+  //final String baseUrl = "https://foodieng.herokuapp.com/api";
+  final String baseUrl = "http://192.168.56.1/foodie/api";
   Future<UserResponse> validateUser(User user) async {
     final http.Response response = await http.post(
       "$baseUrl/Account/LoginUser",

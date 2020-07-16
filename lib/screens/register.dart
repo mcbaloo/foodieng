@@ -7,6 +7,7 @@ import 'package:foodieng/screens/login.dart';
 import 'package:foodieng/utils/ValidationMixin.dart';
 import 'package:foodieng/utils/fadein.dart';
 import 'package:foodieng/utils/login_util.dart';
+import 'package:foodieng/widgets/loading.dart';
 
 class Register extends StatefulWidget with ValidationMixin {
   Register({Key key}) : super(key: key);
@@ -382,10 +383,7 @@ class _RegisterState extends State<Register> with ValidationMixin {
                             padding: EdgeInsets.only(left: 16.0),
                             child: Container(
                                 child: state is LoginLoading
-                                    ? LinearProgressIndicator(
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                      )
+                                    ? LoadingWidget()
                                     : null),
                           ),
                           Row(

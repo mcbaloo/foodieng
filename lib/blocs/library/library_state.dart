@@ -60,3 +60,8 @@ class UserContent extends LibraryState {
   final VideoModel videos;
   UserContent({@required this.videos});
 }
+
+class DeleteStatus extends LibraryState {
+  final AppResponse message;
+  DeleteStatus({@required this.message});
+}

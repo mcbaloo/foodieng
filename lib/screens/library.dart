@@ -5,6 +5,7 @@ import 'package:foodieng/blocs/library/index.dart';
 import 'package:foodieng/blocs/library/library_bloc.dart';
 import 'package:foodieng/screens/myvideos.dart';
 import 'package:foodieng/utils/fadein.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:foodieng/widgets/recent_player.dart';
 import 'package:foodieng/widgets/signin_needed.dart';
 import 'package:foodieng/widgets/upload_video.dart';
@@ -297,12 +298,14 @@ class _LibraryState extends State<Library> {
                 );
               }
 
-              return Center(
-                  child: new SizedBox(
-                      width: 40.0,
-                      height: 40.0,
-                      child: CircularProgressIndicator(
-                          backgroundColor: Theme.of(context).primaryColor)));
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Center(
+                      child: new SizedBox(
+                          width: 40.0, height: 40.0, child: LoadingWidget())),
+                ],
+              );
             },
           ),
         ));

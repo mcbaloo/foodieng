@@ -7,6 +7,7 @@ import 'package:foodieng/models/comment.dart';
 import 'package:foodieng/models/user_response.dart';
 import 'package:foodieng/widgets/error.dart';
 import 'package:foodieng/widgets/home_item.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class Comment extends StatefulWidget {
@@ -86,10 +87,7 @@ class _CommentState extends State<Comment> {
                             children: <Widget>[
                               Container(
                                 height: 20,
-                                child: LinearProgressIndicator(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                ),
+                                child: LoadingWidget(),
                               ),
                             ],
                           ),
@@ -294,7 +292,7 @@ class _CommentState extends State<Comment> {
                                         if (value.trim().isEmpty) {
                                           return 'Text cannot be Empty';
                                         }
-                                        //sreturn "";
+                                        return null;
                                       },
                                       decoration: InputDecoration(
                                         suffixIcon:
@@ -341,10 +339,7 @@ class _CommentState extends State<Comment> {
                                   padding: EdgeInsets.only(left: 4.0),
                                   child: Container(
                                       child: state is InCommentSubmit
-                                          ? CircularProgressIndicator(
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColor,
-                                            )
+                                          ? LoadingWidget()
                                           : null),
                                 ),
                               ],
@@ -373,13 +368,7 @@ class _CommentState extends State<Comment> {
                           aspectRatio: 1,
                           child: Column(
                             children: <Widget>[
-                              Container(
-                                height: 20,
-                                child: LinearProgressIndicator(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                ),
-                              ),
+                              Container(height: 20, child: LoadingWidget()),
                             ],
                           ),
                         ),

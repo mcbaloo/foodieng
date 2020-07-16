@@ -59,3 +59,10 @@ class RegisterResponse {
           profileImage: json["profileimage"] as String,
           lastName: json["lastname"] as String));
 }
+
+class AppResponse {
+  var status;
+  AppResponse({this.status});
+  factory AppResponse.fromJson(Map<String, dynamic> json) =>
+      (new AppResponse(status: json["status"] as String));
+}

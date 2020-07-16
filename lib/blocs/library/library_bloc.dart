@@ -53,10 +53,20 @@ class LibraryBloc extends Bloc<LibraryEvent, LibraryState> {
           yield LibraryError(errorMessage: 'Error Occured');
         }
       }
+
+      if (event is DeleteUserContent) {
+        try {
+          yield LibraryLoading();
+          var status = await this
+              .videoUtils
+              .deletUserContent(event.userId, event.contentId);
+          yield DeleteStatus(message: status);
+        } catch (_) {
+          yield LibraryError(errorMessage: 'Error Occured');
+        }
+      }
     } catch (_, stackTrace) {
-      developer.log('$_',
-          name: 'LibraryBloc', error: _, stackTrace: stackTrace);
-      yield state;
+      yield LibraryError(errorMessage: 'Error Occured');
     }
   }
 }

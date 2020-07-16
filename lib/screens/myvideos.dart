@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/library/index.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:foodieng/widgets/video_player.dart';
 import 'package:foodieng/widgets/error.dart';
 
@@ -30,13 +31,37 @@ class _MyVideoState extends State<MyVideo> {
 
   @override
   Widget build(BuildContext context) {
+    void showAlertDialog(BuildContext context, String content) {
+      Widget continueButton = FlatButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+          onPressed: () => reloadContent(), //logOut(),
+          child: Text("OK"));
+
+      AlertDialog alert = AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text("Message"),
+        content: Text('$content'),
+        actions: <Widget>[continueButton],
+      );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+    }
+
     return BlocProvider(
       create: (context) {
         return LibraryBloc();
       },
       child: BlocListener<LibraryBloc, LibraryState>(
         bloc: _libraryBloc,
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is DeleteStatus) {
+            showAlertDialog(context, state.message.status);
+          }
+        },
         child: BlocBuilder<LibraryBloc, LibraryState>(
           bloc: _libraryBloc,
           builder: (context, state) => Scaffold(
@@ -50,25 +75,23 @@ class _MyVideoState extends State<MyVideo> {
                 onPressed: () => Navigator.pop(context, false),
                 icon: Icon(Icons.arrow_back),
               ),
+              title: Text(
+                "My Videos",
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontFamily: 'Gill Bold'),
+              ),
+              centerTitle: true,
             ),
             body: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    "Dispalying your Contents",
-                    style: TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
                 if (state is LibraryLoading)
-                  Center(
-                      child: new SizedBox(
-                          width: 40.0,
-                          height: 40.0,
-                          child: CircularProgressIndicator(
-                              backgroundColor:
-                                  Theme.of(context).primaryColor))),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                        child: new SizedBox(
+                            width: 40.0, height: 40.0, child: LoadingWidget())),
+                  ),
                 if (state is LibraryError)
                   Error(
                     action: () {
@@ -76,15 +99,16 @@ class _MyVideoState extends State<MyVideo> {
                     },
                   ),
                 if (state is UserContent)
-                  if (state.videos.videoList == null)
+                  if (state.videos.videoList.isEmpty)
                     Padding(
-                      padding: const EdgeInsets.only(top: 16),
+                      padding: const EdgeInsets.only(top: 32),
                       child: Center(
                         child: Text(
-                          'No Content at the moment',
+                          'You havent uploaded any video',
                           style: TextStyle(
                               fontSize: 20,
-                              color: Theme.of(context).primaryColor),
+                              color: Theme.of(context).primaryColor,
+                              fontFamily: 'Gill'),
                         ),
                       ),
                     )
@@ -96,6 +120,7 @@ class _MyVideoState extends State<MyVideo> {
                           return VideoPlayerWidget(
                             url: state.videos.videoList[index].videoUrl,
                             model: state.videos.videoList[index],
+                            userId: widget.userId,
                           );
                         },
                       ),

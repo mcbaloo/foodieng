@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/Home_Video/index.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:foodieng/widgets/video_player.dart';
 import 'package:foodieng/widgets/error.dart';
 
@@ -632,20 +633,10 @@ class _LoginHomeState extends State<LoginHome> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Processing .......",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    Container(
-                      height: 20,
-                      child: LinearProgressIndicator(
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
+                    Center(
+                      child: LoadingWidget(),
                     ),
                   ],
                 ),

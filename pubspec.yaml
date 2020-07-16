@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   sqflite: any
   path_provider: any
-  loading: ^1.0.2
+  loading_gifs: ^0.2.2
   timeago: ^2.0.26
   http: any
   font_awesome_flutter: ^8.2.0

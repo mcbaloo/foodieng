@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodieng/blocs/Trending_Video/index.dart';
 import 'package:foodieng/utils/vidoesutil.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:foodieng/widgets/video_player.dart';
 import 'package:foodieng/widgets/error.dart';
 
@@ -36,12 +37,14 @@ class _TrendingState extends State<Trending> {
           bloc: _trendingBloc,
           builder: (context, state) {
             if (state is TrendingVideoUnInitialized) {
-              return Center(
-                  child: new SizedBox(
-                      width: 40.0,
-                      height: 40.0,
-                      child: CircularProgressIndicator(
-                          backgroundColor: Theme.of(context).primaryColor)));
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                      child: new SizedBox(
+                          width: 40.0, height: 40.0, child: LoadingWidget())),
+                ],
+              );
             }
             if (state is ErrorTrendingVideoState) {
               //TrendingVideoLoaded loaded = TrendingVideoLoaded();

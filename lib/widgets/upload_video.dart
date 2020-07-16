@@ -9,6 +9,7 @@ import 'package:foodieng/models/upload.dart';
 import 'package:foodieng/screens/library.dart';
 import 'package:foodieng/utils/ValidationMixin.dart';
 import 'package:foodieng/utils/fadein.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:video_player/video_player.dart';
 
 class UploadVideo extends StatefulWidget {
@@ -237,9 +238,7 @@ class _UploadVideoState extends State<UploadVideo> with ValidationMixin {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               height: 20,
-                              child: LinearProgressIndicator(
-                                backgroundColor: Theme.of(context).primaryColor,
-                              ),
+                              child: LoadingWidget(),
                             ),
                           ),
                         if (state is LibraryError)

@@ -9,6 +9,7 @@ import 'package:foodieng/screens/login_home.dart';
 import 'package:foodieng/utils/login_util.dart';
 import 'package:foodieng/utils/vidoesutil.dart';
 import 'package:foodieng/widgets/error.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:foodieng/widgets/video_player.dart';
 
 class HomeVideo extends StatefulWidget {
@@ -55,11 +56,7 @@ class _HomeVideoState extends State<HomeVideo> {
                 children: <Widget>[
                   Center(
                       child: new SizedBox(
-                          width: 40.0,
-                          height: 40.0,
-                          child: CircularProgressIndicator(
-                              backgroundColor:
-                                  Theme.of(context).primaryColor))),
+                          width: 40.0, height: 40.0, child: LoadingWidget())),
                 ],
               ),
             );

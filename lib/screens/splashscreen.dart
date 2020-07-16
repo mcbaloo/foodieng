@@ -2,13 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodieng/blocs/Home_Video/Home_Video_state.dart';
 import 'package:foodieng/screens/home.dart';
 import 'package:foodieng/utils/fadein.dart';
 import 'package:foodieng/utils/login_util.dart';
-import 'package:foodieng/widgets/homevideo.dart';
 import 'package:foodieng/widgets/loading.dart';
-//import 'package:medng/screens/epidermic.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key key}) : super(key: key);
@@ -24,11 +21,11 @@ class _SplashScreen extends State<SplashScreen>
   void initState() {
     super.initState();
     animationControllerScreen =
-        AnimationController(duration: Duration(seconds: 4), vsync: this);
+        AnimationController(duration: Duration(seconds: 3), vsync: this);
     animationControllerScreen.forward();
     repository.hasToken().then((value) => this.isLogin = value);
     Timer(
-        Duration(seconds: 6),
+        Duration(seconds: 3),
         () => Navigator.pushReplacement(
             context,
             FadeRoute(

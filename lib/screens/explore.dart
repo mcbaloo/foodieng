@@ -10,6 +10,7 @@ import 'package:foodieng/utils/fadein.dart';
 import 'package:foodieng/widgets/comment.dart';
 import 'package:foodieng/widgets/home_item.dart';
 import 'package:foodieng/widgets/homevideo.dart';
+import 'package:foodieng/widgets/loading.dart';
 import 'package:foodieng/widgets/video_player.dart';
 import 'package:foodieng/widgets/error.dart';
 
@@ -67,14 +68,11 @@ class _ExploreState extends State<Explore> {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Center(
                     child: new SizedBox(
-                        width: 40.0,
-                        height: 40.0,
-                        child: CircularProgressIndicator(
-                            backgroundColor: Theme.of(context).primaryColor))),
+                        width: 40.0, height: 40.0, child: LoadingWidget())),
               ],
             ),
           );

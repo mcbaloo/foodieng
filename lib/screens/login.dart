@@ -7,6 +7,7 @@ import 'package:foodieng/models/User.dart';
 import 'package:foodieng/screens/home.dart';
 import 'package:foodieng/screens/register.dart';
 import 'package:foodieng/utils/fadein.dart';
+import 'package:foodieng/widgets/loading.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -215,10 +216,7 @@ class _LoginState extends State<Login> {
                             padding: EdgeInsets.only(left: 16.0),
                             child: Container(
                                 child: state is LoginLoading
-                                    ? CircularProgressIndicator(
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                      )
+                                    ? LoadingWidget()
                                     : null),
                           ),
                         ],

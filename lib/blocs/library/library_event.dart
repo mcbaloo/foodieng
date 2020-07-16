@@ -30,3 +30,9 @@ class LoadUserContent extends LibraryEvent {
   final String userId;
   LoadUserContent({@required this.userId});
 }
+
+class DeleteUserContent extends LibraryEvent {
+  final String userId;
+  final String contentId;
+  DeleteUserContent({@required this.userId, @required this.contentId});
+}
